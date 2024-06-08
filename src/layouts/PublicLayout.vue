@@ -3,7 +3,7 @@
         <!-- Header -->
         <HeaderComponent />
         <!-- Main Content -->
-         <v-container style="min-height: 100vh;" class="my-10">
+         <v-container style="min-height: 70vh;" class="my-10">
 
              <RouterView />
          </v-container>
