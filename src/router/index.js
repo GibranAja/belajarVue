@@ -51,7 +51,7 @@ const router = createRouter({
       children: [
         {
           path: '/',
-          name: LandingPageView,
+          name: 'LandingPage',
           component: LandingPageView
         }
       ]
