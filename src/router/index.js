@@ -6,7 +6,28 @@ import ProfileView from '../views/ProfileView.vue'
 import DetailCategory from '../views/DetailCategory.vue'
 import LandingPageView from '../views/LandingPageView.vue'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
+
+// Public
 import PublicLayout from '../layouts/PublicLayout.vue'
+import CategoryPublicView from '../views/public/CategoryView.vue'
+import LoginView from '../views/public/LoginView.vue'
+import RegisterView from '../views/public/RegisterView.vue'
+
+// Error
+import NotFound from '../views/error/NotFoundView.vue'
+
+const login = false
+
+const requiredAuth = (to, from, next) => {
+  if(!login) {
+    alert("Login/Register diperlukan say")
+    next({
+      name: "Login"
+    })
+  } else {
+    next()
+  }
+}
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -15,6 +36,7 @@ const router = createRouter({
     {
       path: '/dashboard',
       component: DashboardLayout,
+      beforeEnter: requiredAuth,
       children: [
         {
           path: '',
@@ -51,11 +73,31 @@ const router = createRouter({
       children: [
         {
           path: '/',
-          name: 'LandingPage',
+          name: 'HomePublic',
           component: LandingPageView
-        }
+        },
+        {
+          path: '/Category',
+          name: 'CategoryPublic',
+          component: CategoryPublicView
+        },
+        {
+          path: '/Login',
+          name: 'Login',
+          component: LoginView
+        },
+        {
+          path: '/Register',
+          name: 'Register',
+          component: RegisterView
+        },
       ]
-    },
+    }, 
+    {
+      path: '/:pathMatch(.*)*',
+      name: 'NotFound',
+      component: NotFound
+    }
   ]
 })
 
