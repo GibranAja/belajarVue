@@ -1,10 +1,11 @@
+// DashboardAdmin
 import { createRouter, createWebHistory } from 'vue-router'
 import DashBoardView from '../views/DashboardView.vue'
 import CategoryView from '../views/CategoryView.vue'
 import NewsView from '../views/NewsView.vue'
 import ProfileView from '../views/ProfileView.vue'
 import DetailCategory from '../views/DetailCategory.vue'
-import LandingPageView from '../views/LandingPageView.vue'
+import HomePublic from '../views/LandingPageView.vue'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
 
 // Public
@@ -16,7 +17,7 @@ import RegisterView from '../views/public/RegisterView.vue'
 // Error
 import NotFound from '../views/error/NotFoundView.vue'
 
-const login = false
+const login = true
 
 const requiredAuth = (to, from, next) => {
   if(!login) {
@@ -39,7 +40,7 @@ const router = createRouter({
       beforeEnter: requiredAuth,
       children: [
         {
-          path: '',
+          path: './',
           name: 'Home',
           component: DashBoardView
         },
@@ -74,7 +75,7 @@ const router = createRouter({
         {
           path: '/',
           name: 'HomePublic',
-          component: LandingPageView
+          component: HomePublic
         },
         {
           path: '/Category',
