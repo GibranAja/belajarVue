@@ -1,3 +1,7 @@
 <template>
-    <h1>Halaman Register</h1>
+    <authFormComponent />
 </template>
+
+<script setup>
+import authFormComponent from '../../components/public/AuthFormComponent.vue'
+</script>
