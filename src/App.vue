@@ -3,9 +3,13 @@
 </template>
 
 <script setup>
-import { provide } from 'vue'
+import { onMounted } from 'vue';
 import { RouterView } from 'vue-router';
+import { useAuthStore } from './stores/AuthStore';
 
-provide('username', 'Rawr')
+const auth = useAuthStore()
 
+onMounted (() => {
+  auth.userHandler()
+})
 </script>

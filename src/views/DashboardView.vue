@@ -1,38 +1,13 @@
 <template>
-  <h1>Halaman DashBoard</h1>
-  <h4>Jumlah User = {{ usersData.totalUsers }}</h4>
-  <div v-for='user in usersData.userData' :key='user.name'>
-    <p>Name : {{ user.name }}</p>
-    <p>email : {{ user.email }}</p>
-
-    <hr>
-  </div>
-  <hr>
-  <form @submit.prevent="submitData">
-    <label>Nama</label> <br>
-      <input type="text" v-model="usersData.userInput.name"><br><br>
-      <!-- {{ usersData.userInput.name }} -->
-    <label>Email</label> <br>
-      <input type="text" v-model="usersData.userInput.email"><br><br>
-      <!-- {{ usersData.userInput.email }} -->
-    
-    
-    <input type="submit" value="Tambah">
-  </form>
+  <h1>Halo {{ currentUser.name }}👋</h1>
+  <p>Selamat Datang di sini</p>
 </template>
 
 <script setup>
-import {userStorage} from '../stores/UserStroage.js'
+import { useAuthStore } from '@/stores/AuthStore';
+import { storeToRefs } from 'pinia';
 
-// Storage
-const usersData = userStorage()
-const submitData = () => {
-  usersData.addUser()
-}
+// Store
+const auth = useAuthStore()
+const { currentUser } = storeToRefs(auth)
 </script>
-
-<style scoped>
-  input {
-    border: 1px solid black;
-  }
-</style>
