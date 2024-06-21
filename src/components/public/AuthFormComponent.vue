@@ -1,14 +1,21 @@
 <template>
   <div>
-    <v-img
-      class="mx-auto my-6"
-      max-width="228"
-      src="https://cdn.vuetifyjs.com/docs/images/logos/vuetify-logo-v3-slim-text-light.svg"
-    ></v-img>
+    <div class="mx-auto my-6 text-center text-h3 text-primary">
+      {{ isLogin ? 'Login' : 'Register' }}
+    </div>
 
     <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="448" rounded="lg">
-      <div class="text-subtitle-1 text-medium-emphasis">Account</div>
+      <div v-if="!isLogin">
+        <div class="text-subtitle-1 text-medium-emphasis">Name</div>
+        <v-text-field
+          density="compact"
+          placeholder="Username"
+          prepend-inner-icon="mdi-account"
+          variant="outlined"
+        ></v-text-field>
+      </div>
 
+      <div class="text-subtitle-1 text-medium-emphasis">Email</div>
       <v-text-field
         density="compact"
         placeholder="Email address"
@@ -30,17 +37,29 @@
         @click:append-inner="visible = !visible"
       ></v-text-field>
 
-      <v-btn class="mb-8" color="blue" size="large" variant="tonal" block> Log In </v-btn>
+      <v-btn class="mb-8" color="blue" size="large" variant="tonal" block>
+        {{ isLogin ? 'Login' : 'Register' }}
+      </v-btn>
 
-      <v-card-text class="text-center">
-        <a
+      <v-card-text class="text-center" v-if="isLogin">
+        <router-link
           class="text-blue text-decoration-none"
-          href="#"
-          rel="noopener noreferrer"
-          target="_blank"
+          :to="{ name: 'Register' }"
+          rel="noopener
+          noreferrer"
         >
           Sign up now <v-icon icon="mdi-chevron-right"></v-icon>
-        </a>
+        </router-link>
+      </v-card-text>
+
+      <v-card-text class="text-center" v-else>
+        <router-link
+          class="text-blue text-decoration-none"
+          :to="{ name: 'Login' }"
+          rel="noopener noreferrer"
+        >
+          Login Now <v-icon icon="mdi-chevron-right"></v-icon>
+        </router-link>
       </v-card-text>
     </v-card>
   </div>
