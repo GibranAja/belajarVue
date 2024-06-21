@@ -5,10 +5,16 @@
     <v-toolbar-title>Admin Portal Berita </v-toolbar-title>
 
     <v-spacer></v-spacer>
-    <v-btn color="red" icon="mdi-logout" variant="text"></v-btn>
+    <v-btn color="red" icon="mdi-logout" variant="text" @click="logOutUser"></v-btn>
   </v-app-bar>
 </template>
 
 <script setup>
+import { useAuthStore } from '@/stores/AuthStore';
+
 defineEmits(['openClose'])
+
+// Store
+const auth = useAuthStore()
+const { logOutUser } = auth
 </script>
