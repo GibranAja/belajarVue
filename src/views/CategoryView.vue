@@ -32,10 +32,10 @@
       <div class="text-h6 text-error pa-3">Are you sure want to delete {{ category.name }}</div>
       <v-row>
         <v-col>
-          <v-btn color="primary" block @click="destroyData(category.id)">Yes</v-btn>
+          <v-btn color="error" block @click="destroyData(category.id)">Yes</v-btn>
         </v-col>
         <v-col>
-          <v-btn color="error" block @click="dialogDelete = false">No</v-btn>
+          <v-btn color="primary" block @click="dialogDelete = false">No</v-btn>
         </v-col>
       </v-row>
     </template>
