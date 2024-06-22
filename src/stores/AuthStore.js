@@ -1,7 +1,7 @@
 import { auth, db } from '../config/firebase.js'
 import { defineStore } from 'pinia'
 import { reactive, ref } from 'vue'
-import { createUserWithEmailAndPassword, onAuthStateChanged, signOut } from 'firebase/auth'
+import { createUserWithEmailAndPassword, onAuthStateChanged, signOut, signInWithEmailAndPassword } from 'firebase/auth'
 import { addDoc, collection, query, where, getDocs } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
 
@@ -48,13 +48,17 @@ export const useAuthStore = defineStore('auth', () => {
       })
   }
 
-  const authUser = async () => {
-    const data = await createUserWithEmailAndPassword(auth, user.email, user.password)
+  const authUser = async (isLogin = false) => {
+    if(isLogin) {
+      await signInWithEmailAndPassword(auth, user.email, user.password)
+    } else {
+      const data = await createUserWithEmailAndPassword(auth, user.email, user.password)
     await addDoc(userCollection, {
       name: user.name,
       isAdmin: false,
       uid: data.user.uid
     })
+    }
     router.push({ name: 'Home' })
   }
 
