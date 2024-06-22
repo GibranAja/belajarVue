@@ -1,6 +1,11 @@
 <template>
-  <h1>Halo {{ currentUser.name }}👋</h1>
-  <p>Selamat Datang di sini</p>
+  <div v-if="!currentUser">
+    <h1>Loading...</h1>
+  </div>
+  <div v-else>
+    <h1>Halo {{ currentUser.name }}👋</h1>
+    <p>Selamat Datang di sini</p>
+  </div>
 </template>
 
 <script setup>
