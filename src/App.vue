@@ -3,11 +3,15 @@
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted, provide } from 'vue';
 import { RouterView } from 'vue-router';
 import { useAuthStore } from './stores/AuthStore';
+import { storeToRefs } from 'pinia';
 
 const auth = useAuthStore()
+const { currentUser } = storeToRefs(auth)
+
+provide('currentUser', currentUser)
 
 onMounted (() => {
   auth.userHandler()

@@ -16,11 +16,13 @@ import RegisterView from '../views/public/RegisterView.vue'
 
 // Error
 import NotFound from '../views/error/NotFoundView.vue'
+import { auth } from '@/config/firebase'
 
-const login = true
+// const login = true
 
 const requiredAuth = (to, from, next) => {
-  if(!login) {
+  const userAuth = auth.currentUser
+  if(!userAuth) {
     alert("Login/Register diperlukan say")
     next({
       name: "Login"
@@ -39,6 +41,10 @@ const router = createRouter({
       component: DashboardLayout,
       beforeEnter: requiredAuth,
       children: [
+        {
+          path: '',
+          redirect: {name: "Home"}
+        },
         {
           path: './',
           name: 'Home',
