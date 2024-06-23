@@ -14,7 +14,7 @@
       <v-form v-model="form" @submit.prevent="onSubmitData">
         <v-text-field class="mb-1" :rules="nameRules" v-model="category.name" label="Name"></v-text-field>
         <v-textarea class="mb-1" :rules="descriptionRules" v-model="category.description" label="Description"></v-textarea>
-        <v-btn block :disabled="!form" color="success" size="large" type="submit" variant="elevated">{{ category.description ? "Update" : "Add" }}</v-btn>
+        <v-btn block :disabled="!form" color="success" size="large" type="submit" variant="elevated">{{ category.isUpdate ? "Update" : "Add" }}</v-btn>
       </v-form>
     </template>
   </DialogComponents>
