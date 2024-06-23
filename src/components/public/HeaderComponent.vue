@@ -35,11 +35,11 @@ const menuItems = [
     icon: 'mdi-login',
     pathName: 'Login'
   },
-  {
-    title: 'Register',
-    icon: 'mdi-account-plus',
-    pathName: 'Register'
-  }
+  // {
+  //   title: 'Register',
+  //   icon: 'mdi-account-plus',
+  //   pathName: 'Register'
+  // }
 ]
 
 const menuAdmin = [
