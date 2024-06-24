@@ -24,7 +24,7 @@ export const useAuthStore = defineStore('auth', () => {
   })
 
   const isError = ref(false)
-  const messageError = ref(null)
+  const message = ref(null)
 
   const userHandler = () => {
     onAuthStateChanged(auth, async (user) => {
@@ -57,14 +57,14 @@ export const useAuthStore = defineStore('auth', () => {
     } catch (error) {
       console.error('Logout error:', error)
       isError.value = true
-      messageError.value = 'Failed to log out. Please try again.'
+      message.value = 'Failed to log out. Please try again.'
     }
   }
 
   const authUser = async (isLogin = false) => {
     try {
       isError.value = false
-      messageError.value = null
+      message.value = null
   
       if (isLogin) {
         await signInWithEmailAndPassword(auth, user.email, user.password)
@@ -93,19 +93,19 @@ export const useAuthStore = defineStore('auth', () => {
         case 'auth/user-not-found':
         case 'auth/wrong-password':
         case 'auth/invalid-credential':
-          messageError.value = 'Login Failed : Email or Password wrong'
+          message.value = 'Login Failed : Email or Password wrong'
           break
         case 'auth/invalid-email':
-          messageError.value = 'Email not valid.'
+          message.value = 'Email not valid.'
           break
         case 'auth/email-already-in-use':
-          messageError.value = 'Register failed: Email Registered'
+          message.value = 'Register failed: Email Registered'
           break
         case 'auth/weak-password':
-          messageError.value = 'Register Failed: Minimal Password 8 Characters'
+          message.value = 'Register Failed: Minimal Password 8 Characters'
           break
         default:
-          messageError.value = `${isLogin ? 'Login' : 'Register'} Failed: ${error.message}`
+          message.value = `${isLogin ? 'Login' : 'Register'} Failed: ${error.message}`
       }
       
       console.error('Authentication error:', error)
@@ -120,6 +120,6 @@ export const useAuthStore = defineStore('auth', () => {
     currentUser,
     logOutUser,
     isError,
-    messageError
+    message
   }
 })
