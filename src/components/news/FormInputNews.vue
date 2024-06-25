@@ -1,12 +1,13 @@
 <template>
   <div class="mt-8">
     <v-card class="mx-auto pa-12 pb-8" elevation="8" max-width="90%" rounded="lg">
-      <v-form>
+      <v-form v-model="formInput" @submit.prevent="handleSubmit()">
         <v-text-field
           density="compact"
           placeholder="News Title"
           class="my-5"
           variant="outlined"
+          v-model="news.title"
           :rules="titleRules"
         ></v-text-field>
 
@@ -15,6 +16,7 @@
           label="News Content"
           class="my-5"
           variant="outlined"
+          v-model="news.content"
           :rules="contentRules"
         ></v-textarea>
 
@@ -23,6 +25,7 @@
             class="my-5"
             :rules="categoryRules"
             :items="categories"
+            v-model="news.category"
             item-title="name"
             item-value="id"
             label="Category"
@@ -32,7 +35,7 @@
           </v-select>
         </div>
 
-        <v-btn class="mb-8" type="submit" color="blue" size="large" variant="tonal" block>
+        <v-btn :disable="!formInput" class="mb-8" type="submit" color="blue" size="large" variant="tonal" block>
           Submit
         </v-btn>
       </v-form>
@@ -44,15 +47,19 @@
 import { useCategoryStore } from '../../stores/CategoryStore.js'
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
+import { useNewsStore } from '@/stores/NewsStore.js';
 
 // Store
 const categoryStore = useCategoryStore()
+const newsStore = useNewsStore()
 
 // State
 const { categories } = storeToRefs(categoryStore)
+const { news, formInput } = storeToRefs(newsStore)
 
 // Action
 const { readCategory } = categoryStore
+const { handleSubmit } = newsStore
 
 // Validation
 const titleRules = [
