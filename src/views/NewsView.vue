@@ -13,13 +13,13 @@
           src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
           cover
         >
-          <v-card-title>{{ data.title.substring(0, 50) }}</v-card-title>
+          <v-card-title>{{ truncateText(data.title, 50) }}</v-card-title>
         </v-img>
 
         <v-card-subtitle class="pt-4"> {{ data.category.name }} </v-card-subtitle>
 
         <v-card-text>
-          <div>{{ data.content.substring(0, 200) }}</div>
+          <div>{{ truncateText(data.content, 200) }}</div>
         </v-card-text>
 
         <v-card-actions>
@@ -47,4 +47,9 @@ const { allNews } = newsStore
 onMounted(() => {
   allNews()
 })
+
+const truncateText = (text, maxLength) => {
+  if (text.length <= maxLength) return text;
+  return text.slice(0, maxLength) + '...';
+}
 </script>
