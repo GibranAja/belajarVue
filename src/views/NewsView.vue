@@ -23,7 +23,7 @@
         </v-card-text>
 
         <v-card-actions>
-          <v-btn color="orange">Detail</v-btn>
+          <v-btn color="orange" @click="detail(data.id)">Detail</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -34,6 +34,10 @@
 import { useNewsStore } from '@/stores/NewsStore'
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+
+// Router
+const router = useRouter()
 
 // Store
 const newsStore = useNewsStore()
@@ -43,6 +47,9 @@ const { newsData } = storeToRefs(newsStore)
 
 // Action
 const { allNews } = newsStore
+const detail = (id) => {
+  router.push({ name: 'DetailNews', params: { id: id } })
+}
 
 onMounted(() => {
   allNews()
