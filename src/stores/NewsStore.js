@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { db } from '../config/firebase'
 import { useAuthStore } from './AuthStore'
 import { useRouter } from 'vue-router'
-import { collection, addDoc, getDocs } from 'firebase/firestore'
+import { collection, addDoc, getDocs, getDoc, doc } from 'firebase/firestore'
 
 export const useNewsStore = defineStore('News', () => {
     // State
@@ -18,6 +18,8 @@ export const useNewsStore = defineStore('News', () => {
   const formInput = ref(false)
 
   const newsData = ref(null)
+
+  const detailNews = ref(null)
 
   //  Router
   const router = useRouter()
@@ -62,11 +64,21 @@ export const useNewsStore = defineStore('News', () => {
         return { ...docs.data(), id: docs.id }
     })
   }
+
+  const detailHandling = async (idParams) => {
+    const docRef = doc(newsCollection, idParams)
+    const docDetail = await getDoc(docRef)
+
+    detailNews.value = docDetail.data()
+  }
+
   return {
     news,
     formInput,
     handleSubmit,
     newsData,
-    allNews
+    allNews,
+    detailNews,
+    detailHandling
   }
 })
