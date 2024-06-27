@@ -6,7 +6,7 @@ import { useRouter } from 'vue-router'
 import { collection, addDoc, getDocs, getDoc, doc } from 'firebase/firestore'
 
 export const useNewsStore = defineStore('News', () => {
-    // State
+  // State
   const news = reactive({
     id: '',
     title: '',
@@ -60,8 +60,8 @@ export const useNewsStore = defineStore('News', () => {
   const allNews = async () => {
     const fetchedNews = await getDocs(newsCollection)
     newsData.value = fetchedNews.docs.map((docs) => {
-        // console.log(doc.id, doc.data())
-        return { ...docs.data(), id: docs.id }
+      // console.log(doc.id, doc.data())
+      return { ...docs.data(), id: docs.id }
     })
   }
 
