@@ -8,13 +8,13 @@
     >
     </v-img>
 
-    <v-card-title>{{ data.title }}</v-card-title>
-    <v-card-subtitle class="pt-4"> {{ data.category.name }} </v-card-subtitle>
+    <v-card-title class="font-weight-bold">{{ data.title }}</v-card-title>
+    <v-card-subtitle class="pt-4 font-weight-normal"> {{ data.category.name }} </v-card-subtitle>
 
     <v-card-text>
       <div>{{ data.content }}</div>
       <div class="text-primary mt-5">Written By: {{ data.writtenBy.name }}</div>
-      <div class="mt-1 ">Date Created: {{ new Date(data.createdAt).toDateString() }}</div>
+      <div class="mt-1 text-medium-emphasis">Date Created: {{ new Date(data.createdAt).toDateString() }}</div>
     </v-card-text>
 
     <v-card-actions>
