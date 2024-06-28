@@ -11,6 +11,7 @@ import DashboardLayout from '../layouts/DashboardLayout.vue'
 // News
 import CreateNews from '../views/news/CreateNewsView.vue'
 import DetailNews from '../views/news/DetailNewsView.vue'
+import UpdateNews from '../views/news/UpdateNewsView.vue'
 
 // Public
 import PublicLayout from '../layouts/PublicLayout.vue'
@@ -68,6 +69,11 @@ const router = createRouter({
           path: 'news/:id',
           name: 'DetailNews',
           component: DetailNews
+        },
+        {
+          path: 'news/:id/edit',
+          name: 'DetailUpdate',
+          component: UpdateNews
         },
         {
           path: 'category',
