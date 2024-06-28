@@ -13,6 +13,7 @@
     { text: 'Category', icon: 'mdi-view-list', pathName: 'Category' },
     { text: 'News', icon: 'mdi-newspaper-variant-outline', pathName: 'News' },
     { text: 'Profile', icon: 'mdi-account', pathName: 'User' },
+    { text: 'Home', icon: 'mdi-home', pathName: 'HomePublic' },
   ])
   </script>
   
