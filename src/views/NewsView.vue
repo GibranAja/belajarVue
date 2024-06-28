@@ -2,7 +2,7 @@
   <h1>Ini Halaman News</h1>
   <!-- Add button -->
   <div class="d-flex justify-end my-6">
-    <v-btn color="primary" size="large" icon="mdi-plus" :to="{ name: 'CreateNews' }"></v-btn>
+    <v-btn color="primary" size="large" icon="mdi-plus" @click="addNews()"></v-btn>
   </div>
   <v-row justify="center">
     <v-col v-for="data in newsData" :key="data.id" cols="4">
@@ -24,6 +24,7 @@
 
         <v-card-actions>
           <v-btn color="orange" @click="detail(data.id)">Detail</v-btn>
+          <v-btn color="secondary" @click="update(data.id)">Edit</v-btn>
         </v-card-actions>
       </v-card>
     </v-col>
@@ -46,9 +47,18 @@ const newsStore = useNewsStore()
 const { newsData } = storeToRefs(newsStore)
 
 // Action
-const { allNews } = newsStore
+const { allNews, clearHandling } = newsStore
 const detail = (id) => {
   router.push({ name: 'DetailNews', params: { id: id } })
+}
+
+const update = (id) => {
+  router.push({ name: 'DetailUpdate', params: { id: id } })
+}
+
+const addNews = () => {
+  router.push({ name: 'CreateNews' })
+  clearHandling()
 }
 
 onMounted(() => {
