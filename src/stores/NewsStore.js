@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { db } from '../config/firebase'
 import { useAuthStore } from './AuthStore'
 import { useRouter } from 'vue-router'
-import { collection, addDoc, getDocs, getDoc, doc, updateDoc } from 'firebase/firestore'
+import { collection, addDoc, getDocs, getDoc, doc, updateDoc, deleteDoc } from 'firebase/firestore'
 
 export const useNewsStore = defineStore('News', () => {
   // State
@@ -97,6 +97,12 @@ export const useNewsStore = defineStore('News', () => {
     news.isUpdate = true
   }
 
+  const deleteHandling = async (idParams) => {
+    await deleteDoc(doc(newsCollection, idParams))
+    alert("Delete News Success")
+    allNews()
+  }
+
   return {
     news,
     formInput,
@@ -106,6 +112,7 @@ export const useNewsStore = defineStore('News', () => {
     detailNews,
     detailHandling,
     clearHandling,
-    updateHandling
+    updateHandling,
+    deleteHandling
   }
 })
