@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import { db } from '../config/firebase'
 import { useAuthStore } from './AuthStore'
 import { useRouter } from 'vue-router'
-import { collection, addDoc, getDocs, getDoc, doc } from 'firebase/firestore'
+import { collection, addDoc, getDocs, getDoc, doc, updateDoc } from 'firebase/firestore'
 
 export const useNewsStore = defineStore('News', () => {
   // State
@@ -33,6 +33,14 @@ export const useNewsStore = defineStore('News', () => {
   const handleSubmit = async () => {
     if (news.isUpdate) {
       // Update Data
+      await updateDoc(doc(newsCollection, news.id), {
+        title: news.title,
+        content: news.content,
+        category: {
+          id: news.category.id,
+          name: news.category.name
+        }
+      })
     } else {
       // Add Data
       const now = Date.now()
@@ -72,6 +80,23 @@ export const useNewsStore = defineStore('News', () => {
     detailNews.value = docDetail.data()
   }
 
+  const clearHandling = () => {
+    ;(news.id = ''),
+      (news.title = ''),
+      (news.content = ''),
+      (news.category = ''),
+      (news.isUpdate = false)
+  }
+
+  const updateHandling = async (idParams) => {
+    const docRef = doc(newsCollection, idParams)
+    const docDetail = await getDoc(docRef)
+    ;(news.id = docRef.id), (news.title = docDetail.data().title)
+    news.content = docDetail.data().content
+    news.category = docDetail.data().category
+    news.isUpdate = true
+  }
+
   return {
     news,
     formInput,
@@ -79,6 +104,8 @@ export const useNewsStore = defineStore('News', () => {
     newsData,
     allNews,
     detailNews,
-    detailHandling
+    detailHandling,
+    clearHandling,
+    updateHandling
   }
 })
