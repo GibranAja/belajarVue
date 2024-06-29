@@ -1,10 +1,10 @@
 <template>
     <div>
         <h1>Ini Halaman Profile</h1>
-        <h4>Jumlah User = {{ usersData.totalUsers }}</h4>
-        <div v-for = "user in usersData.userData" :key="user.name">
-            <p>Nama : {{ user.name }}</p>
-            <p>Email : {{ user.email }}</p>
+        <!-- <h4>Jumlah User = {{ usersData.totalUsers }}</h4> -->
+        <div>
+            <p>Nama : {{ currentUser.name }}</p>
+            <p>Email : {{ currentUser.email }}</p>
         </div>
     </div>
     <v-divider></v-divider>
@@ -15,8 +15,14 @@
 
 <script setup>
 import IconLink from '../components/IconLink.vue'
-import { userStorage } from '../stores/UserStroage.js'
+// import { userStorage } from '../stores/UserStroage.js'
+import { useAuthStore } from '@/stores/AuthStore';
+import { storeToRefs } from 'pinia';
+
+// Store
+const auth = useAuthStore()
+const { currentUser } = storeToRefs(auth)
 
 // Storgage
-const usersData = userStorage()
+// const usersData = userStorage()
 </script>
