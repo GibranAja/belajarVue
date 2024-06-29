@@ -35,9 +35,29 @@
           </v-select>
         </div>
 
-        <v-btn :disable="!formInput" class="mb-8" type="submit" color="blue" size="large" variant="tonal" block>
+        <v-btn
+          :disable="!formInput"
+          class="mb-8"
+          type="submit"
+          color="blue"
+          size="large"
+          variant="tonal"
+          block
+        >
           Submit
         </v-btn>
+        <v-card-actions>
+          <v-btn
+            class="mb-8"
+            type="submit"
+            color="error"
+            size="large"
+            variant="elevate"
+            block
+            @click="$router.go(-1)"
+            >Back</v-btn
+          >
+        </v-card-actions>
       </v-form>
     </v-card>
   </div>
@@ -47,7 +67,7 @@
 import { useCategoryStore } from '../../stores/CategoryStore.js'
 import { storeToRefs } from 'pinia'
 import { onMounted } from 'vue'
-import { useNewsStore } from '@/stores/NewsStore.js';
+import { useNewsStore } from '@/stores/NewsStore.js'
 
 // Store
 const categoryStore = useCategoryStore()
@@ -77,10 +97,10 @@ const contentRules = [
 ]
 
 const categoryRules = [
-    (value) => {
-        if (value) return true
-        return 'Category must selected'
-    }
+  (value) => {
+    if (value) return true
+    return 'Category must selected'
+  }
 ]
 
 onMounted(() => {
