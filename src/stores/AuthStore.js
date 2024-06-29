@@ -65,7 +65,7 @@ export const useAuthStore = defineStore('auth', () => {
     try {
       isError.value = false
       message.value = null
-  
+
       if (isLogin) {
         await signInWithEmailAndPassword(auth, user.email, user.password)
       } else {
@@ -80,15 +80,15 @@ export const useAuthStore = defineStore('auth', () => {
           uid: createdUser.uid
         })
       }
-  
+
       user.name = ''
       user.email = ''
       user.password = ''
-  
+
       router.push({ name: 'Home' })
     } catch (error) {
       isError.value = true
-      
+
       switch (error.code) {
         case 'auth/user-not-found':
         case 'auth/wrong-password':
@@ -107,7 +107,7 @@ export const useAuthStore = defineStore('auth', () => {
         default:
           message.value = `${isLogin ? 'Login' : 'Register'} Failed: ${error.message}`
       }
-      
+
       console.error('Authentication error:', error)
     }
   }

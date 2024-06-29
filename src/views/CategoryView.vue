@@ -5,16 +5,34 @@
   </div>
 
   <DialogComponents v-model="dialog">
-    <template #title> 
+    <template #title>
       <div>
-        {{ category.isUpdate ? "Update Category" : "Add Category" }}
-      </div>  
+        {{ category.isUpdate ? 'Update Category' : 'Add Category' }}
+      </div>
     </template>
     <template #content>
       <v-form v-model="form" @submit.prevent="onSubmitData">
-        <v-text-field class="mb-1" :rules="nameRules" v-model="category.name" label="Name"></v-text-field>
-        <v-textarea class="mb-1" :rules="descriptionRules" v-model="category.description" label="Description"></v-textarea>
-        <v-btn block :disabled="!form" color="success" size="large" type="submit" variant="elevated">{{ category.isUpdate ? "Update" : "Add" }}</v-btn>
+        <v-text-field
+          class="mb-1"
+          :rules="nameRules"
+          v-model="category.name"
+          label="Name"
+        ></v-text-field>
+        <v-textarea
+          class="mb-1"
+          :rules="descriptionRules"
+          v-model="category.description"
+          label="Description"
+        ></v-textarea>
+        <v-btn
+          block
+          :disabled="!form"
+          color="success"
+          size="large"
+          type="submit"
+          variant="elevated"
+          >{{ category.isUpdate ? 'Update' : 'Add' }}</v-btn
+        >
       </v-form>
     </template>
   </DialogComponents>
@@ -25,9 +43,7 @@
   </DialogComponents>
 
   <DialogComponents v-model="dialogDelete">
-    <template #title>
-      Delete Category
-    </template>
+    <template #title> Delete Category </template>
     <template #content>
       <div class="text-h6 text-error pa-3">Are you sure want to delete {{ category.name }}</div>
       <v-row>
@@ -56,7 +72,13 @@
         <td>{{ item.name }}</td>
         <td class="text-center">
           <v-btn size="x-small" color="info" icon="mdi-information" @click="getData(item)" />
-          <v-btn size="x-small" color="primary" icon="mdi-pencil" class="mx-3" @click="editData(item)" />
+          <v-btn
+            size="x-small"
+            color="primary"
+            icon="mdi-pencil"
+            class="mx-3"
+            @click="editData(item)"
+          />
           <v-btn size="x-small" color="error" icon="mdi-trash-can" @click="deleteData(item)" />
         </td>
       </tr>
@@ -65,19 +87,21 @@
 </template>
 
 <script setup>
-import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia'
 import DialogComponents from '../components/dashboard/DialogComponents.vue'
 import { useCategoryStore } from '../stores/CategoryStore'
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 
 // Storage
 const CategoryStorage = useCategoryStore()
 
 // State
-const { category, form, dialog, dialogDetail,dialogDelete, categories } = storeToRefs(CategoryStorage)
+const { category, form, dialog, dialogDetail, dialogDelete, categories } =
+  storeToRefs(CategoryStorage)
 
 // Action
-const { onSubmitData, readCategory, getData, addData, editData, deleteData, destroyData } = CategoryStorage
+const { onSubmitData, readCategory, getData, addData, editData, deleteData, destroyData } =
+  CategoryStorage
 
 onMounted(() => {
   readCategory()
@@ -86,14 +110,14 @@ onMounted(() => {
 // Validation Form
 const nameRules = [
   (value) => {
-    if(value) return true
+    if (value) return true
     return 'Name required'
   }
 ]
 
 const descriptionRules = [
   (value) => {
-    if(value) return true
+    if (value) return true
     return 'Description required'
   }
 ]

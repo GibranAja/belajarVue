@@ -99,7 +99,7 @@ export const useNewsStore = defineStore('News', () => {
 
   const deleteHandling = async (idParams) => {
     await deleteDoc(doc(newsCollection, idParams))
-    alert("Delete News Success")
+    alert('Delete News Success')
     allNews()
   }
 
