@@ -34,7 +34,9 @@
   <DialogComponents v-model="dialogDelete">
     <template #title> Delete News </template>
     <template #content>
-      <div class="text-h6 text-error pa-3">Are you sure you want to delete "{{ selectedNews.title }}"?</div>
+      <div class="text-h6 text-error pa-3">
+        Are you sure you want to delete "{{ truncateText(selectedNews.title, 17) }}"?
+      </div>
       <v-row>
         <v-col>
           <v-btn color="error" block @click="confirmDelete">Yes</v-btn>
