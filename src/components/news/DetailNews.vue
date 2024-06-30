@@ -14,7 +14,26 @@
     <v-card-text>
       <div>{{ data.content }}</div>
       <div class="text-primary mt-5">Written By: {{ data.writtenBy.name }}</div>
-      <div class="mt-1 text-medium-emphasis">Date Created: {{ new Date(data.createdAt).toDateString() }}</div>
+      <div class="mt-1 text-medium-emphasis">
+        Date Created: {{ new Date(data.createdAt).toDateString() }}
+      </div>
+    </v-card-text>
+
+    <v-card-text>
+      <div>
+        <p style="color: red">{{ fileError }}</p>
+      </div>
+      <v-form style="width: 300px">
+        <v-file-input
+          label="Input Image"
+          variant="filled"
+          prepend-icon="mdi-camera"
+          @change="handlingChange"
+        ></v-file-input>
+        <v-btn type="submit" :disabled="fileError" block class="my-3" size="large" :color="fileError ? 'red' : 'blue'" variant="tonal"
+          >Upload</v-btn
+        >
+      </v-form>
     </v-card-text>
 
     <v-card-actions>
@@ -25,11 +44,34 @@
 
 <script setup>
 import { defineProps } from 'vue'
+import { ref } from 'vue'
 
 defineProps({
   data: {
     type: Object,
     required: true
+  },
+  isUpdate: {
+    type: Boolean,
+    default: true
   }
 })
+
+const file = ref(null)
+const fileError = ref(null)
+
+// Validation
+const types = ['image/png', 'image/jpg', 'image/jpeg']
+
+const handlingChange = (e) => {
+  const selected = e.target.files[0]
+
+  if (selected && types.includes(selected.type)) {
+    file.value = selected
+    fileError.value = null
+  } else {
+    file.value = null
+    fileError.value = 'File must be PNG, JPG, and JPEG'
+  }
+}
 </script>
