@@ -4,7 +4,7 @@ import DashBoardView from '../views/DashboardView.vue'
 import CategoryView from '../views/CategoryView.vue'
 import NewsView from '../views/NewsView.vue'
 import ProfileView from '../views/ProfileView.vue'
-import DetailCategory from '../views/DetailCategory.vue'
+// import DetailCategory from '../views/DetailCategory.vue'
 import HomePublic from '../views/LandingPageView.vue'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
 
@@ -71,7 +71,7 @@ const router = createRouter({
           component: DetailNews
         },
         {
-          path: 'news/:id/edit',
+          path: 'news/edit/:id',
           name: 'DetailUpdate',
           component: UpdateNews
         },
@@ -85,11 +85,11 @@ const router = createRouter({
           name: 'User',
           component: ProfileView
         },
-        {
-          path: 'category/:name',
-          name: 'Category-name',
-          component: DetailCategory
-        }
+        // {
+        //   path: 'category/:name',
+        //   name: 'Category-name',
+        //   component: DetailCategory
+        // }
       ]
     },
     
