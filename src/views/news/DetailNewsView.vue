@@ -1,6 +1,6 @@
 <template>
   <div v-if="detailNews">
-    <DetailNews :data="detailNews" />
+    <DetailNews :data="detailNews" :isUpdate="true"/>
   </div>
 </template>
 
