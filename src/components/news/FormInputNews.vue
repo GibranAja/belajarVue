@@ -12,12 +12,22 @@
         ></v-text-field>
 
         <v-textarea
-          density="compact"
-          label="News Content"
-          class="my-5"
-          variant="outlined"
-          v-model="news.content"
+          v-model.trim="news.content"
           :rules="contentRules"
+          :counter="maxChars"
+          :maxlength="maxChars"
+          label="News Content"
+          placeholder="Enter your news content here..."
+          hint="Press Shift + Enter for new line"
+          persistent-hint
+          auto-grow
+          rows="5"
+          row-height="20"
+          class="my-5"
+          density="comfortable"
+          variant="outlined"
+          @keydown.enter.prevent
+          @keydown.shift.enter.exact="newLine"
         ></v-textarea>
 
         <div v-if="categories">
@@ -90,10 +100,13 @@ const titleRules = [
 ]
 
 const contentRules = [
-  (value) => {
-    if (value) return true
-    return 'Content must be filled'
-  }
+  // (value) => {
+  //   if (value) return true
+  //   return 'Content must be filled'
+  // }
+  (v) => !!v || 'Content must be filled',
+  (v) => v.length >= 50 || 'Content should be at least 50 characters long',
+  (v) => v.split('\n').length >= 3 || 'Content should have at least 3 lines'
 ]
 
 const categoryRules = [
@@ -101,9 +114,28 @@ const categoryRules = [
     if (value) return true
     return 'Category must selected'
   }
+  
 ]
+
+const maxChars = 5000 // Sesuaikan dengan kebutuhan Anda
+
+const newLine = (event) => {
+  const textarea = event.target
+  const start = textarea.selectionStart
+  const end = textarea.selectionEnd
+  const value = textarea.value
+  textarea.value = value.substring(0, start) + '\n' + value.substring(end)
+  textarea.selectionStart = textarea.selectionEnd = start + 1
+}
 
 onMounted(() => {
   readCategory()
 })
 </script>
+
+<style scoped>
+.v-textarea :deep(textarea) {
+  line-height: 1.5;
+  white-space: pre-wrap;
+}
+</style>
