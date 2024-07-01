@@ -1,4 +1,9 @@
 <template>
+  <v-card-actions>
+    <v-btn color="secondary" @click="$router.go(-1)" prepend-icon="mdi-arrow-left" size="extra-large">
+      <p class="mx-3">Back</p>
+    </v-btn>
+  </v-card-actions>
   <v-card class="mx-auto">
     <v-img
       class="align-end text-white"
@@ -30,15 +35,18 @@
           prepend-icon="mdi-camera"
           @change="handlingChange"
         ></v-file-input>
-        <v-btn type="submit" :disabled="fileError" block class="my-3" size="large" :color="fileError ? 'red' : 'blue'" variant="tonal"
+        <v-btn
+          type="submit"
+          :disabled="fileError"
+          block
+          class="my-3"
+          size="large"
+          :color="fileError ? 'red' : 'blue'"
+          variant="tonal"
           >Upload</v-btn
         >
       </v-form>
     </v-card-text>
-
-    <v-card-actions>
-      <v-btn color="secondary" @click="$router.go(-1)">Back</v-btn>
-    </v-card-actions>
   </v-card>
 </template>
 
