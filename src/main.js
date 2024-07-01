@@ -25,7 +25,7 @@ onAuthStateChanged(auth, () => {
   app = createApp(App)
   const pinia = createPinia()
   
-  pinia.use(({store}) => {
+  pinia.use(({ store }) => {
     store.router = markRaw(router)
   })
   
