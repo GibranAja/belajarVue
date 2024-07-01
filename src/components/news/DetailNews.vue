@@ -28,7 +28,7 @@
       <div>
         <p style="color: red">{{ fileError }}</p>
       </div>
-      <v-form style="width: 300px">
+      <v-form style="width: 300px" @submit.prevent="handlingUploadFile(data)">
         <v-file-input
           label="Input Image"
           variant="filled"
@@ -37,7 +37,7 @@
         ></v-file-input>
         <v-btn
           type="submit"
-          :disabled="fileError"
+          :disabled="fileError || !formInput"
           block
           class="my-3"
           size="large"
@@ -53,6 +53,10 @@
 <script setup>
 import { defineProps } from 'vue'
 import { ref } from 'vue'
+import { db, projectStorage } from '../../config/firebase.js'
+import { ref as refFile, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
+import { doc, updateDoc } from 'firebase/firestore'
+import { useRoute, useRouter } from 'vue-router'
 
 defineProps({
   data: {
@@ -67,6 +71,13 @@ defineProps({
 
 const file = ref(null)
 const fileError = ref(null)
+const filePath = ref(null)
+const urlFile = ref(null)
+const formInput = ref(false)
+
+// Router
+const route = useRoute()
+const router = useRouter()
 
 // Validation
 const types = ['image/png', 'image/jpg', 'image/jpeg']
@@ -76,10 +87,32 @@ const handlingChange = (e) => {
 
   if (selected && types.includes(selected.type)) {
     file.value = selected
+    formInput.value = true
     fileError.value = null
   } else {
     file.value = null
     fileError.value = 'File must be PNG, JPG, and JPEG'
+  }
+}
+
+const handlingUploadFile = async (data) => {
+  if(file.value) {
+    filePath.value = `thumbnail/${data.writtenBy.id}/${file.value.name}`
+    const storageRef = refFile(projectStorage, filePath.value)
+    const uploadTask = await uploadBytesResumable(storageRef, file.value)
+
+    const getLink = await getDownloadURL(uploadTask.ref)
+    urlFile.value = getLink
+
+    try {
+      await updateDoc(doc(db, 'news', route.params.id), {
+        image : urlFile.value
+      })
+
+      router.push({name: 'News'})
+    } catch (error) {
+      console.log(error)
+    }
   }
 }
 </script>
