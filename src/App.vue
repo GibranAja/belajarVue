@@ -30,9 +30,12 @@ onMounted (() => {
     ::-webkit-scrollbar-thumb {
       background: lightblue;
       border-radius: 30px;
+      transition: background 0.3s ease-in-out;
     }
 
     ::-webkit-scrollbar-thumb:hover {
       background: blue;
+      width: 12px;
+      box-shadow: 0 0 5px rgba(0, 0, 255, 0.5);
     }
   </style>
