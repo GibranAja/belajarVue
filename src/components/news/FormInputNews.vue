@@ -105,7 +105,7 @@ const contentRules = [
   //   return 'Content must be filled'
   // }
   (v) => !!v || 'Content must be filled',
-  (v) => v.length >= 50 || 'Content should be at least 50 characters long',
+  (v) => v.length >= 50 || 'Content should be at least 50 characters long'
 ]
 
 const categoryRules = [
@@ -113,7 +113,6 @@ const categoryRules = [
     if (value) return true
     return 'Category must selected'
   }
-  
 ]
 
 const maxChars = 10000 // Sesuaikan dengan kebutuhan Anda

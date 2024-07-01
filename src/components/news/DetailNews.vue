@@ -7,7 +7,7 @@
   <v-card class="mx-auto">
     <v-img
       class="align-end text-white"
-      style="aspect-ratio: 16/9; width: 100%;"
+      style="aspect-ratio: 16/9; width: 100%"
       :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
       cover
     >
@@ -96,7 +96,7 @@ const handlingChange = (e) => {
 }
 
 const handlingUploadFile = async (data) => {
-  if(file.value) {
+  if (file.value) {
     filePath.value = `thumbnail/${data.writtenBy.id}/${file.value.name}`
     const storageRef = refFile(projectStorage, filePath.value)
     const uploadTask = await uploadBytesResumable(storageRef, file.value)
@@ -106,10 +106,10 @@ const handlingUploadFile = async (data) => {
 
     try {
       await updateDoc(doc(db, 'news', route.params.id), {
-        image : urlFile.value
+        image: urlFile.value
       })
 
-      router.push({name: 'News'})
+      router.push({ name: 'News' })
     } catch (error) {
       console.log(error)
     }
