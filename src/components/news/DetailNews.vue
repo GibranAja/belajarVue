@@ -7,8 +7,8 @@
   <v-card class="mx-auto">
     <v-img
       class="align-end text-white"
-      height="200"
-      src="https://cdn.vuetifyjs.com/images/cards/docks.jpg"
+      style="aspect-ratio: 16/9; width: 100%;"
+      :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
       cover
     >
     </v-img>
