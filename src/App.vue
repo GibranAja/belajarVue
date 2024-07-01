@@ -17,3 +17,22 @@ onMounted (() => {
   auth.userHandler()
 })
 </script>
+
+<style>
+    ::-webkit-scrollbar {
+      width: 10px;
+    }
+
+    ::-webkit-scrollbar-track {
+      background: transparent;
+    }
+
+    ::-webkit-scrollbar-thumb {
+      background: lightblue;
+      border-radius: 30px;
+    }
+
+    ::-webkit-scrollbar-thumb:hover {
+      background: blue;
+    }
+  </style>
