@@ -106,7 +106,6 @@ const contentRules = [
   // }
   (v) => !!v || 'Content must be filled',
   (v) => v.length >= 50 || 'Content should be at least 50 characters long',
-  (v) => v.split('\n').length >= 3 || 'Content should have at least 3 lines'
 ]
 
 const categoryRules = [
@@ -117,7 +116,7 @@ const categoryRules = [
   
 ]
 
-const maxChars = 5000 // Sesuaikan dengan kebutuhan Anda
+const maxChars = 10000 // Sesuaikan dengan kebutuhan Anda
 
 const newLine = (event) => {
   const textarea = event.target
