@@ -1,7 +1,7 @@
 <template>
   <v-toolbar app class="bg-blue-lighten-4">
     <RouterLink :to="{ name: 'HomePublic' }">
-      <span class="ml-15">HNN</span>
+      <span class="ml-15 text-h5">HNN</span>
     </RouterLink>
     <v-spacer></v-spacer>
     <v-toolbar-items v-if="!currentUser">
