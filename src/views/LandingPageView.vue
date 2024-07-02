@@ -64,5 +64,6 @@ onMounted(() => {
 .news-card:hover {
   transform: scale(1.02);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  background-color: #f5f5f5;
 }
 </style>
