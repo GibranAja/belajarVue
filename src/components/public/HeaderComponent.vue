@@ -20,11 +20,16 @@
 </template>
 
 <script setup>
-import { inject } from 'vue';
+import { inject } from 'vue'
 
 const currentUser = inject('currentUser')
 
 const menuItems = [
+  {
+    title: 'Home',
+    icon: 'mdi-home',
+    pathName: 'HomePublic'
+  },
   {
     title: 'Category',
     icon: 'mdi-newspaper',
@@ -34,7 +39,7 @@ const menuItems = [
     title: 'Login',
     icon: 'mdi-login',
     pathName: 'Login'
-  },
+  }
   // {
   //   title: 'Register',
   //   icon: 'mdi-account-plus',
@@ -52,7 +57,7 @@ const menuAdmin = [
     title: 'Dashboard',
     icon: 'mdi-view-dashboard',
     pathName: 'Home'
-  },
+  }
 ]
 </script>
 
