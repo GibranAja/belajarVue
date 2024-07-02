@@ -4,7 +4,7 @@
   <v-container class="my-3">
     <v-row v-for="data in newsData" :key="data.id">
       <v-col cols="12">
-        <v-card class="mx-auto">
+        <v-card class="mx-auto news-card" elevation="2">
           <v-row>
             <v-col cols="4">
               <v-img
@@ -55,3 +55,14 @@ onMounted(() => {
   allNews()
 })
 </script>
+
+<style scoped>
+.news-card {
+  transition: all 0.3s ease;
+}
+
+.news-card:hover {
+  transform: scale(1.02);
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+}
+</style>
