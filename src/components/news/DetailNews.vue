@@ -17,7 +17,7 @@
     <v-card-subtitle class="pt-4 font-weight-normal"> {{ data.category.name }} </v-card-subtitle>
 
     <v-card-text>
-      <div>{{ data.content }}</div>
+      <div v-html="formattedContent"></div>
       <div class="text-primary mt-5">Written By: {{ data.writtenBy.name }}</div>
       <div class="mt-1 text-medium-emphasis">
         Date Created: {{ new Date(data.createdAt).toDateString() }}
@@ -51,14 +51,13 @@
 </template>
 
 <script setup>
-import { defineProps } from 'vue'
-import { ref } from 'vue'
+import { defineProps, ref, computed } from 'vue'
 import { db, projectStorage } from '../../config/firebase.js'
 import { ref as refFile, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useRoute, useRouter } from 'vue-router'
 
-defineProps({
+const props = defineProps({
   data: {
     type: Object,
     required: true
@@ -115,4 +114,8 @@ const handlingUploadFile = async (data) => {
     }
   }
 }
+
+const formattedContent = computed(() => {
+  return props.data.content.replace(/\n/g, '<br>')
+})
 </script>
