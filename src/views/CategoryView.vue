@@ -67,8 +67,8 @@
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in categories" :key="item.name">
-        <td>{{ index + 1 }}</td>
+      <tr v-for="(item, index) in paginatedCategories" :key="item.name">
+        <td>{{ (currentPage - 1) * itemsPerPage + index + 1 }}</td>
         <td>{{ item.name }}</td>
         <td class="text-center">
           <v-btn size="x-small" color="info" icon="mdi-information" @click="getData(item)" />
@@ -84,13 +84,20 @@
       </tr>
     </tbody>
   </v-table>
+
+  <v-pagination
+    v-model="currentPage"
+    :length="totalPages"
+    @update:modelValue="changePage"
+    class="custom-pagination mt-4"
+  ></v-pagination>
 </template>
 
 <script setup>
 import { storeToRefs } from 'pinia'
 import DialogComponents from '../components/dashboard/DialogComponents.vue'
 import { useCategoryStore } from '../stores/CategoryStore'
-import { onMounted } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 
 // Storage
 const CategoryStorage = useCategoryStore()
@@ -102,6 +109,27 @@ const { category, form, dialog, dialogDetail, dialogDelete, categories } =
 // Action
 const { onSubmitData, readCategory, getData, addData, editData, deleteData, destroyData } =
   CategoryStorage
+
+// Pagination
+const itemsPerPage = 5
+const currentPage = ref(1)
+
+const totalPages = computed(() => {
+  return categories.value && categories.value.length > 0
+    ? Math.ceil(categories.value.length / itemsPerPage)
+    : 0
+})
+
+const paginatedCategories = computed(() => {
+  if (!categories.value || categories.value.length === 0) return []
+  const start = (currentPage.value - 1) * itemsPerPage
+  const end = start + itemsPerPage
+  return categories.value.slice(start, end)
+})
+
+const changePage = (page) => {
+  currentPage.value = page
+}
 
 onMounted(() => {
   readCategory()
@@ -122,3 +150,18 @@ const descriptionRules = [
   }
 ]
 </script>
+
+<style scoped>
+.custom-pagination {
+  --v-theme-overlay-multiplier: 0;
+}
+
+:deep(.v-pagination__item) {
+  color: blue !important;
+}
+
+:deep(.v-pagination__item--active) {
+  background-color: lightblue !important;
+  color: white !important;
+}
+</style>
