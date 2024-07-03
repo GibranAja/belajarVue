@@ -31,7 +31,7 @@
     <v-pagination
     v-model="currentPage"
     :length="totalPages"
-    @update="changePage"
+    @update:modelValue="changePage"
     class="custom-pagination mt-4"
     > </v-pagination>
   </v-container>
@@ -56,7 +56,7 @@ const newsPerPage = 5
 const currentPage = ref(1)
 
 const totalPages = computed(() => {
-  return newsData.data.value && newsData.data.length > 0
+  return newsData.value && newsData.value.length > 0
     ? Math.ceil(newsData.value.length / newsPerPage)
     : 0
 })
