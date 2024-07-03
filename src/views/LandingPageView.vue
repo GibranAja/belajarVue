@@ -2,7 +2,7 @@
   <h1 class="my-3">News</h1>
   <v-divider class="border-opacity-100" color="info"></v-divider>
   <v-container class="my-3">
-    <v-row v-for="data in newsData" :key="data.id">
+    <v-row v-for="data in paginatedNews" :key="data.id">
       <v-col cols="12">
         <v-card class="mx-auto news-card" elevation="2">
           <v-row>
@@ -28,12 +28,18 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-pagination
+    v-model="currentPage"
+    :length="totalPages"
+    @update="changePage"
+    class="custom-pagination mt-4"
+    > </v-pagination>
   </v-container>
 </template>
 
 <script setup>
 import { useNewsStore } from '../stores/NewsStore.js'
-import { onMounted } from 'vue'
+import { onMounted, computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 
 // Store
@@ -44,6 +50,27 @@ const { allNews } = newsStore
 
 // State
 const { newsData } = storeToRefs(newsStore)
+
+// Paginatiom
+const newsPerPage = 5
+const currentPage = ref(1)
+
+const totalPages = computed(() => {
+  return newsData.data.value && newsData.data.length > 0
+    ? Math.ceil(newsData.value.length / newsPerPage)
+    : 0
+})
+
+const paginatedNews = computed(() => {
+  if (!newsData.value || newsData.value.length === 0) return []
+  const start = (currentPage.value - 1) * newsPerPage
+  const end = start + newsPerPage
+  return newsData.value.slice(start, end)
+})
+
+const changePage = (page) => {
+  currentPage.value = page
+}
 
 const truncateText = (text, maxLength) => {
   if (!text || typeof text !== 'string') return ''
@@ -65,5 +92,18 @@ onMounted(() => {
   transform: scale(1.02);
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
   background-color: #f5f5f5;
+}
+
+.custom-pagination {
+  --v-theme-overlay-multiplier: 0;
+}
+
+:deep(.v-pagination__item) {
+  color: lightblue !important;
+}
+
+:deep(.v-pagination__item--active) {
+  background-color: lightblue !important;
+  color: white !important;
 }
 </style>
