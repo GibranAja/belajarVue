@@ -13,9 +13,9 @@
           :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
           cover
         >
-          <v-card-title class="newsTitle">{{ truncateText(data.title, 50) }}</v-card-title>
         </v-img>
 
+        <v-card-title class="newsTitle">{{ truncateText(data.title, 50) }}</v-card-title>
         <v-card-subtitle class="pt-4"> {{ data.category.name }} </v-card-subtitle>
 
         <v-card-text>
@@ -105,10 +105,10 @@ const truncateText = (text, maxLength) => {
 }
 </script>
 
-<style scoped>
+<!-- <style scoped>
 .newsTitle {
   color: white;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
 }
-</style>
+</style> -->
