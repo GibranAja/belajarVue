@@ -99,7 +99,7 @@ onMounted(() => {
 }
 
 :deep(.v-pagination__item) {
-  color: lightblue !important;
+  color: blue !important;
 }
 
 :deep(.v-pagination__item--active) {
