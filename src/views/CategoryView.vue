@@ -1,6 +1,9 @@
 <template>
   <h1>Ini Halaman Category</h1>
   <div class="d-flex justify-end my-6">
+    <v-btn color="primary" class="mr-3 mt-3" @click="toggleSortOrder">
+      Filter {{ sortOrder === 'asc' ? 'A-Z' : 'Z-A' }}
+    </v-btn>
     <v-btn color="primary" icon="mdi-plus" size="large" @click="addData()"></v-btn>
   </div>
 
@@ -111,29 +114,42 @@ const { onSubmitData, readCategory, getData, addData, editData, deleteData, dest
   CategoryStorage
 
 // Pagination
-const itemsPerPage = 5
+const itemsPerPage = 10
 const currentPage = ref(1)
 
+// Filter Data
+const sortOrder = ref('asc')
+
+const toggleSortOrder = () => {
+  sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc'
+}
+
+const sortedCategories = computed(() => {
+  if (!categories.value) return []
+  return [...categories.value].sort((a, b) => {
+    if (sortOrder.value === 'asc') {
+      return a.name.localeCompare(b.name)
+    } else {
+      return b.name.localeCompare(a.name)
+    }
+  })
+})
+
 const totalPages = computed(() => {
-  return categories.value && categories.value.length > 0
-    ? Math.ceil(categories.value.length / itemsPerPage)
+  return sortedCategories.value.length > 0
+    ? Math.ceil(sortedCategories.value.length / itemsPerPage)
     : 0
 })
 
 const paginatedCategories = computed(() => {
-  if (!categories.value || categories.value.length === 0) return []
   const start = (currentPage.value - 1) * itemsPerPage
   const end = start + itemsPerPage
-  return categories.value.slice(start, end)
+  return sortedCategories.value.slice(start, end)
 })
 
 const changePage = (page) => {
   currentPage.value = page
 }
-
-onMounted(() => {
-  readCategory()
-})
 
 // Validation Form
 const nameRules = [
@@ -149,6 +165,10 @@ const descriptionRules = [
     return 'Description required'
   }
 ]
+
+onMounted(() => {
+  readCategory()
+})
 </script>
 
 <style scoped>
