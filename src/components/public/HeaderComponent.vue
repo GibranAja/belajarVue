@@ -11,7 +11,7 @@
       </v-btn>
     </v-toolbar-items>
     <v-toolbar-items v-else>
-      <v-btn flat v-for="item in menuAdmin" :key="item.title" :to="{ name: `${item.pathName}` }">
+      <v-btn flat v-for="item in currentUserMenu" :key="item.title" :to="{ name: `${item.pathName}` }">
         <v-icon left>{{ item.icon }}</v-icon>
         <span>{{ item.title }}</span>
       </v-btn>
@@ -21,7 +21,7 @@
 </template>
 
 <script setup>
-import { inject } from 'vue'
+import { inject, computed } from 'vue'
 import { useAuthStore } from '@/stores/AuthStore';
 
 defineEmits(['openClose'])
@@ -43,11 +43,6 @@ const menuItems = [
     icon: 'mdi-login',
     pathName: 'Login'
   }
-  // {
-  //   title: 'Register',
-  //   icon: 'mdi-account-plus',
-  //   pathName: 'Register'
-  // }
 ]
 
 const menuAdmin = [
@@ -62,6 +57,18 @@ const menuAdmin = [
     pathName: 'Home'
   }
 ]
+
+const menuUser = [
+  {
+    title: 'Category',
+    icon: 'mdi-newspaper',
+    pathName: 'CategoryPublic'
+  }
+]
+
+const currentUserMenu = computed(() => {
+  return currentUser.value?.isAdmin ? menuAdmin : menuUser
+})
 </script>
 
 <style scoped>
