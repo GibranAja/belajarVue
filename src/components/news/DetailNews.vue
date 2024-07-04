@@ -7,17 +7,20 @@
   <v-card class="mx-auto">
     <v-img
       class="align-end text-white"
-      style="aspect-ratio: 4/3; width: 100%"
+      style="width: 100%; height: auto"
       :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
-      cover
+      :aspect-ratio="4 / 3"
+      contain
     >
     </v-img>
 
-    <v-card-title class="font-weight-bold">{{ data.title }}</v-card-title>
-    <v-card-subtitle class="pt-4 font-weight-normal"> {{ data.category.name }} </v-card-subtitle>
+    <v-card-title class="font-weight-bold text-h5">{{ data.title }}</v-card-title>
+    <v-card-subtitle class="pt-4 font-weight-normal text-h6">
+      {{ data.category.name }}
+    </v-card-subtitle>
 
     <v-card-text>
-      <div v-html="formattedContent"></div>
+      <div class="text-subtitle-1" v-html="formattedContent"></div>
       <div class="text-primary mt-5">Written By: {{ data.writtenBy.name }}</div>
       <div class="mt-1 text-medium-emphasis">
         Date Created: {{ new Date(data.createdAt).toDateString() }}
@@ -56,6 +59,7 @@ import { db, projectStorage } from '../../config/firebase.js'
 import { ref as refFile, getDownloadURL, uploadBytesResumable } from 'firebase/storage'
 import { doc, updateDoc } from 'firebase/firestore'
 import { useRoute, useRouter } from 'vue-router'
+import { useAuthStore } from '@/stores/AuthStore'
 
 const props = defineProps({
   data: {
@@ -65,8 +69,11 @@ const props = defineProps({
   isUpdate: {
     type: Boolean,
     default: true
-  },
+  }
 })
+
+const authStore = useAuthStore()
+const isAdmin = computed(() => authStore.currentUser?.isAdmin)
 
 const file = ref(null)
 const fileError = ref(null)
@@ -95,6 +102,11 @@ const handlingChange = (e) => {
 }
 
 const handlingUploadFile = async (data) => {
+  if (!isAdmin.value) {
+    console.error('Unauthorized access')
+    return
+  }
+
   if (file.value) {
     filePath.value = `thumbnail/${data.writtenBy.id}/${file.value.name}`
     const storageRef = refFile(projectStorage, filePath.value)
