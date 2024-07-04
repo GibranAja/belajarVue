@@ -15,12 +15,20 @@
         <v-icon left>{{ item.icon }}</v-icon>
         <span>{{ item.title }}</span>
       </v-btn>
+      <v-btn color="red" icon="mdi-logout" variant="text" @click="logOutUser"></v-btn>
     </v-toolbar-items>
   </v-toolbar>
 </template>
 
 <script setup>
 import { inject } from 'vue'
+import { useAuthStore } from '@/stores/AuthStore';
+
+defineEmits(['openClose'])
+
+// Store
+const auth = useAuthStore()
+const { logOutUser } = auth
 
 const currentUser = inject('currentUser')
 
