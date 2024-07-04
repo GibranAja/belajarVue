@@ -26,11 +26,6 @@ const currentUser = inject('currentUser')
 
 const menuItems = [
   {
-    title: 'Home',
-    icon: 'mdi-home',
-    pathName: 'HomePublic'
-  },
-  {
     title: 'Category',
     icon: 'mdi-newspaper',
     pathName: 'CategoryPublic'
