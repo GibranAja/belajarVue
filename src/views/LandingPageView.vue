@@ -21,7 +21,7 @@
                 <div>{{ truncateText(data.content, 200) }}</div>
               </v-card-text>
               <v-card-actions>
-                <v-btn color="info" variant="elevated" type="button">Read More</v-btn>
+                <v-btn color="info" variant="elevated" type="button" @click="detailNews(data.id)">Read More</v-btn>
               </v-card-actions>
             </v-col>
           </v-row>
@@ -41,12 +41,17 @@
 import { useNewsStore } from '../stores/NewsStore.js'
 import { onMounted, computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router';
 
 // Store
 const newsStore = useNewsStore()
+const router = useRouter()
 
 // Action
 const { allNews } = newsStore
+const detailNews = (id) => {
+  router.push({ name: 'DetailNewsPublic', params: { id: id } })
+}
 
 // State
 const { newsData } = storeToRefs(newsStore)
