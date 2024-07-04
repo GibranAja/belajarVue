@@ -12,6 +12,7 @@
         color="primary"
         fab
         class="back-to-top-btn"
+        size="large"
       >
       </v-btn>
     </Transition>
