@@ -24,7 +24,7 @@
       </div>
     </v-card-text>
 
-    <v-card-text>
+    <v-card-text v-if="!isUpdate">
       <div>
         <p style="color: red">{{ fileError }}</p>
       </div>
