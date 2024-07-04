@@ -1,10 +1,9 @@
-// DashboardAdmin
+// Dashboard Admin
 import { createRouter, createWebHistory } from 'vue-router'
 import DashBoardView from '../views/DashboardView.vue'
 import CategoryView from '../views/CategoryView.vue'
 import NewsView from '../views/NewsView.vue'
 import ProfileView from '../views/ProfileView.vue'
-// import DetailCategory from '../views/DetailCategory.vue'
 import HomePublic from '../views/LandingPageView.vue'
 import DashboardLayout from '../layouts/DashboardLayout.vue'
 
@@ -22,30 +21,38 @@ import RegisterView from '../views/public/RegisterView.vue'
 
 // Error
 import NotFound from '../views/error/NotFoundView.vue'
-import { auth } from '@/config/firebase'
 
-// const login = true
+// Auth
+import { auth } from '@/config/firebase'
+import { useAuthStore } from '../stores/AuthStore.js'
 
 const requiredAuth = (to, from, next) => {
+  const authStore = useAuthStore()
   const userAuth = auth.currentUser
-  if(!userAuth) {
+
+  if (!userAuth) {
     alert("Login/Register diperlukan say")
-    next({
-      name: "Login"
-    })
+    next({ name: "Login" })
   } else {
-    next()
+    // Check if the user is admin for admin routes
+    if (to.meta.requiresAdmin && !authStore.currentUser?.isAdmin) {
+      alert("You don't have permission to access this page")
+      next({ name: "HomePublic" })
+    } else {
+      next()
+    }
   }
 }
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // dashboard
+    // dashboard (admin routes)
     {
       path: '/dashboard',
       component: DashboardLayout,
       beforeEnter: requiredAuth,
+      meta: { requiresAdmin: true },
       children: [
         {
           path: '',
@@ -86,15 +93,10 @@ const router = createRouter({
           name: 'User',
           component: ProfileView
         },
-        // {
-        //   path: 'category/:name',
-        //   name: 'Category-name',
-        //   component: DetailCategory
-        // }
       ]
     },
     
-    // Public
+    // Public routes
     {
       path: '/',
       component: PublicLayout,
@@ -132,6 +134,21 @@ const router = createRouter({
       component: NotFound
     }
   ]
+})
+
+// Add a global navigation guard
+router.beforeEach((to, from, next) => {
+  const authStore = useAuthStore()
+  
+  if (to.matched.some(record => record.meta.requiresAdmin)) {
+    if (authStore.currentUser?.isAdmin) {
+      next()
+    } else {
+      next({ name: 'HomePublic' })
+    }
+  } else {
+    next()
+  }
 })
 
 export default router
