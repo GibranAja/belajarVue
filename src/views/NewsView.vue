@@ -2,6 +2,7 @@
   <h1>Ini Halaman News</h1>
   <!-- Add button -->
   <div class="d-flex justify-end my-6">
+    <FilterComponents />
     <v-btn color="primary" size="large" icon="mdi-plus" @click="addNews()"></v-btn>
   </div>
   <v-row justify="center">
@@ -55,6 +56,7 @@ import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DialogComponents from '@/components/dashboard/DialogComponents.vue'
+import FilterComponents from '../components/dashboard/FilterComponents.vue'
 
 // Router
 const router = useRouter()
