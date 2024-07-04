@@ -24,6 +24,8 @@ const { detailNews } = storeToRefs(newsStore)
 const { detailHandling } = newsStore
 
 onMounted(() => {
-  detailHandling(route.params.id)
+  detailHandling(route.params.id).then(() => {
+    window.scrollTo(0, 0);
+  });
 })
 </script>

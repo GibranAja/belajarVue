@@ -50,7 +50,9 @@ const router = useRouter()
 // Action
 const { allNews } = newsStore
 const detailNews = (id) => {
-  router.push({ name: 'DetailNewsPublic', params: { id: id } })
+  router.push({ name: 'DetailNewsPublic', params: { id: id } }).then(() => {
+    window.scrollTo(0, 0);
+  });
 }
 
 // State
