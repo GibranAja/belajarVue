@@ -12,6 +12,7 @@ import DashboardLayout from '../layouts/DashboardLayout.vue'
 import CreateNews from '../views/news/CreateNewsView.vue'
 import DetailNews from '../views/news/DetailNewsView.vue'
 import UpdateNews from '../views/news/UpdateNewsView.vue'
+import DetailNewsPublic from '../views/public/news/DetailNewsPublic.vue'
 
 // Public
 import PublicLayout from '../layouts/PublicLayout.vue'
@@ -107,6 +108,11 @@ const router = createRouter({
           path: '/Category',
           name: 'CategoryPublic',
           component: CategoryPublicView
+        },
+        {
+          path: '/news/:id',
+          name: 'DetailNewsPublic',
+          component: DetailNewsPublic
         },
         {
           path: '/Login',
