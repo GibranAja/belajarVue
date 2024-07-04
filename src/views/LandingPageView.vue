@@ -15,7 +15,7 @@
               ></v-img>
             </v-col>
             <v-col cols="8">
-              <v-card-title>{{ truncateText(data.title, 100) }}</v-card-title>
+              <v-card-title class="font-weight-bold">{{ truncateText(data.title, 100) }}</v-card-title>
               <v-card-subtitle class="pt-2">{{ data.category.name }}</v-card-subtitle>
               <v-card-text>
                 <div>{{ truncateText(data.content, 200) }}</div>
@@ -31,7 +31,7 @@
     <v-pagination
     v-model="currentPage"
     :length="totalPages"
-    @update:modelValue="changePage"
+    @update:model-value="changePage"
     class="custom-pagination mt-4"
     > </v-pagination>
   </v-container>
@@ -39,20 +39,41 @@
 
 <script setup>
 import { useNewsStore } from '../stores/NewsStore.js'
+import { useAuthStore } from '../stores/AuthStore.js'
 import { onMounted, computed, ref } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter } from 'vue-router';
+import { useToast } from 'vue-toastification'
 
 // Store
 const newsStore = useNewsStore()
+const authStore = useAuthStore()
 const router = useRouter()
+const toast = useToast()
 
 // Action
 const { allNews } = newsStore
 const detailNews = (id) => {
-  router.push({ name: 'DetailNewsPublic', params: { id: id } }).then(() => {
-    window.scrollTo(0, 0);
-  });
+  if (authStore.currentUser) {
+    router.push({ name: 'DetailNewsPublic', params: { id: id } }).then(() => {
+      window.scrollTo(0, 0);
+    });
+  } else {
+    toast.info("Kamu belum Login/Register", {
+      position: "top-right",
+      timeout: 3000,
+      closeOnClick: true,
+      pauseOnFocusLoss: false,
+      pauseOnHover: false,
+      draggable: true,
+      draggablePercent: 0.6,
+      showCloseButtonOnHover: false,
+      hideProgressBar: false,
+      closeButton: "button",
+      icon: true,
+      rtl: false
+    });
+  }
 }
 
 // State
@@ -77,6 +98,10 @@ const paginatedNews = computed(() => {
 
 const changePage = (page) => {
   currentPage.value = page
+  window.scrollTo({
+    top: 0,
+    behavior: 'smooth'
+  })
 }
 
 const truncateText = (text, maxLength) => {
