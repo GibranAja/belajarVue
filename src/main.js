@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, markRaw } from 'vue'
 import { createPinia } from 'pinia'
 
 import App from './App.vue'
@@ -13,6 +13,10 @@ import * as directives from 'vuetify/directives'
 // Firebase
 import { auth } from './config/firebase'
 import { onAuthStateChanged } from 'firebase/auth'
+
+// Vue Toastification
+import Toast from "vue-toastification";
+import "vue-toastification/dist/index.css";
 
 const vuetify = createVuetify({
   components,
@@ -32,6 +36,7 @@ onAuthStateChanged(auth, () => {
   app.use(createPinia())
   app.use(router)
   app.use(vuetify)
-  
+  app.use(Toast)
+
   app.mount('#app')
 })
