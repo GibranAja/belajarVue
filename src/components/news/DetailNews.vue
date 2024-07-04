@@ -7,7 +7,7 @@
   <v-card class="mx-auto">
     <v-img
       class="align-end text-white"
-      style="aspect-ratio: 16/9; width: 100%"
+      style="aspect-ratio: 4/3; width: 100%"
       :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
       cover
     >
@@ -24,7 +24,7 @@
       </div>
     </v-card-text>
 
-    <v-card-text v-if="!isUpdate">
+    <v-card-text v-if="isAdmin">
       <div>
         <p style="color: red">{{ fileError }}</p>
       </div>
@@ -65,7 +65,7 @@ const props = defineProps({
   isUpdate: {
     type: Boolean,
     default: true
-  }
+  },
 })
 
 const file = ref(null)
