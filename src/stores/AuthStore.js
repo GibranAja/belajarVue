@@ -81,11 +81,34 @@ export const useAuthStore = defineStore('auth', () => {
         })
       }
 
+      const queryId = query(userCollection, where('uid', '==', auth.currentUser.uid))
+      const queryData = await getDocs(queryId)
+
+      if (!queryData.empty) {
+        const queryUser = queryData.docs[0].data()
+        currentUser.value = {
+          email: auth.currentUser.email,
+          id: auth.currentUser.uid,
+          name: queryUser.name,
+          isAdmin: queryUser.isAdmin
+        }
+
+        // Route 
+        if (queryUser.isAdmin) {
+          router.push({ name: 'Home' })
+        } else {
+          router.push({ name: 'HomePublic' })
+        }
+      } else {
+        console.error('User document not found in Firestore')
+        currentUser.value = null
+        router.push({ name: 'HomePublic' })
+      }
+
       user.name = ''
       user.email = ''
       user.password = ''
 
-      router.push({ name: 'Home' })
     } catch (error) {
       isError.value = true
 
