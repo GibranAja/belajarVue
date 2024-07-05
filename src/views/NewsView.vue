@@ -2,25 +2,29 @@
   <h1>Ini Halaman News</h1>
   <!-- Add button -->
   <div class="d-flex justify-end my-6">
-    <FilterComponents />
+    <SortFilter 
+      v-model:sortOrder="sortOrder"
+      :sortKey="'title'"
+      @sort="handleSort"
+    />
     <v-btn color="primary" size="large" icon="mdi-plus" @click="addNews()"></v-btn>
   </div>
   <v-row justify="center">
-    <v-col v-for="data in newsData" :key="data.id" cols="4">
-      <v-card>
+    <v-col v-for="data in sortedNewsData" :key="data.id" cols="12" sm="6" md="4">
+      <v-card class="news-card">
         <v-img
           class="align-end text-white"
-          height="300"
+          height="200"
           :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
           cover
         >
         </v-img>
 
-        <v-card-title class="newsTitle">{{ truncateText(data.title, 50) }}</v-card-title>
-        <v-card-subtitle class="pt-4"> {{ data.category.name }} </v-card-subtitle>
+        <v-card-title class="newsTitle text-truncate">{{ data.title }}</v-card-title>
+        <v-card-subtitle class="pt-2"> {{ data.category.name }} </v-card-subtitle>
 
-        <v-card-text>
-          <div>{{ truncateText(data.content, 200) }}</div>
+        <v-card-text class="content-text">
+          {{ truncateText(data.content, 100) }}
         </v-card-text>
 
         <v-card-actions>
@@ -53,10 +57,10 @@
 <script setup>
 import { useNewsStore } from '@/stores/NewsStore'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
+import { onMounted, ref,  } from 'vue'
 import { useRouter } from 'vue-router'
 import DialogComponents from '@/components/dashboard/DialogComponents.vue'
-import FilterComponents from '../components/dashboard/FilterComponents.vue'
+import SortFilter from '@/components/dashboard/FilterComponents.vue'
 
 // Router
 const router = useRouter()
@@ -69,8 +73,22 @@ const { newsData } = storeToRefs(newsStore)
 const dialogDelete = ref(false)
 const selectedNews = ref({})
 
+// Sort
+const sortOrder = ref('asc')
+const sortedNewsData = ref([])
+
 // Action
 const { allNews, clearHandling, deleteHandling } = newsStore
+
+const handleSort = ({ key, order }) => {
+  sortedNewsData.value = [...newsData.value].sort((a, b) => {
+    if (order === 'asc') {
+      return a[key].localeCompare(b[key])
+    } else {
+      return b[key].localeCompare(a[key])
+    }
+  })
+}
 
 const detail = (id) => {
   router.push({ name: 'DetailNews', params: { id: id } })
@@ -96,8 +114,9 @@ const confirmDelete = async () => {
   selectedNews.value = {}
 }
 
-onMounted(() => {
-  allNews()
+onMounted(async () => {
+  await allNews()
+  sortedNewsData.value = [...newsData.value]
 })
 
 const truncateText = (text, maxLength) => {
@@ -107,10 +126,26 @@ const truncateText = (text, maxLength) => {
 }
 </script>
 
-<!-- <style scoped>
-.newsTitle {
+<style scoped>
+/* .newsTitle {
   color: white;
   -webkit-text-stroke-width: 1px;
   -webkit-text-stroke-color: black;
+} */
+
+.news-card {
+  height: 100%;
+  display: flex;
+  flex-direction: column;
 }
-</style> -->
+
+.newsTitle {
+  height: 64px;
+  overflow: hidden;
+}
+
+.content-text {
+  flex-grow: 1;
+  overflow: hidden;
+}
+</style>
