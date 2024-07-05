@@ -9,6 +9,8 @@ import {
 } from 'firebase/auth'
 import { addDoc, collection, query, where, getDocs } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
+import { useToast } from 'vue-toastification'
+// import DialogComponents from '@/components/dashboard/DialogComponents.vue'
 
 export const useAuthStore = defineStore('auth', () => {
   const formInput = ref(false)
@@ -25,6 +27,12 @@ export const useAuthStore = defineStore('auth', () => {
 
   const isError = ref(false)
   const message = ref(null)
+
+  // Toast
+  const toast = useToast()
+
+  // Dialog
+  const dialogLogout = ref(false)
 
   const userHandler = () => {
     onAuthStateChanged(auth, async (user) => {
@@ -50,10 +58,21 @@ export const useAuthStore = defineStore('auth', () => {
     })
   }
 
+  const confirmLogout = () => {
+    dialogLogout.value = true
+  }
+
   const logOutUser = async () => {
     try {
       await signOut(auth)
-      router.push({ name: 'HomePublic' })
+      dialogLogout.value = false
+      router.push({ name: 'HomePublic' }).then(() => {
+        toast.success(`Kamu berhasil logout!`, {
+          timeout: 3000,
+          position: "top-right",
+          pauseOnHover: false
+        })
+      })
     } catch (error) {
       console.error('Logout error:', error)
       isError.value = true
@@ -92,6 +111,12 @@ export const useAuthStore = defineStore('auth', () => {
           name: queryUser.name,
           isAdmin: queryUser.isAdmin
         }
+
+        // Toaster
+        toast.success(`Hai, ${currentUser.value.name}!`, {
+          timeout: 3000,
+          position: "top-right",
+        })
 
         // Route 
         if (queryUser.isAdmin) {
@@ -143,6 +168,8 @@ export const useAuthStore = defineStore('auth', () => {
     currentUser,
     logOutUser,
     isError,
-    message
+    message,
+    dialogLogout,
+    confirmLogout
   }
 })
