@@ -5,7 +5,7 @@
     <v-toolbar-title>Admin HNN</v-toolbar-title>
 
     <v-spacer></v-spacer>
-    <v-btn color="red" icon="mdi-logout" variant="text" @click="logOutUser"></v-btn>
+    <v-btn color="red" icon="mdi-logout" variant="text" @click="auth.dialogLogout = true"></v-btn>
   </v-app-bar>
 
   <DialogComponents v-model="auth.dialogLogout">
@@ -32,5 +32,4 @@ defineEmits(['openClose'])
 
 // Store
 const auth = useAuthStore()
-// const { logOutUser } = auth
 </script>
