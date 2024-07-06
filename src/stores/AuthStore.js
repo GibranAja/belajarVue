@@ -1,13 +1,13 @@
 import { auth, db } from '../config/firebase.js'
 import { defineStore } from 'pinia'
-import { reactive, ref, watch } from 'vue' // Ditambahkan import untuk watch
+import { reactive, ref } from 'vue'
 import {
   createUserWithEmailAndPassword,
   onAuthStateChanged,
   signOut,
   signInWithEmailAndPassword
 } from 'firebase/auth'
-import { addDoc, collection, query, where, getDocs, doc, setDoc, getDoc } from 'firebase/firestore' // Ditambahkan import untuk doc, setDoc, dan getDoc
+import { addDoc, collection, query, where, getDocs } from 'firebase/firestore'
 import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 // import DialogComponents from '@/components/dashboard/DialogComponents.vue'
@@ -34,39 +34,6 @@ export const useAuthStore = defineStore('auth', () => {
   // Dialog
   const dialogLogout = ref(false)
 
-  // Ditambahkan: sessionId untuk menangani concurrent login
-  const sessionId = ref(null)
-
-  // Ditambahkan: Fungsi untuk menghasilkan sessionId unik
-  const generateSessionId = () => {
-    return Math.random().toString(36).substring(2, 15) + Math.random().toString(36).substring(2, 15)
-  }
-
-  // Ditambahkan: Fungsi untuk memeriksa concurrent login
-  const checkConcurrentLogin = async (userId) => {
-    const userRef = doc(db, 'users', userId)
-    const userDoc = await getDoc(userRef)
-    
-    if (userDoc.exists() && userDoc.data().sessionId && userDoc.data().sessionId !== sessionId.value) {
-      // Concurrent login detected
-      toast.error('Kamu sudah login di perangkat lain, silakan logout terlebih dahulu', {
-        timeout: 5000,
-        position: "top-center",
-      })
-      await signOut(auth)
-      currentUser.value = null
-      router.push({ name: 'Login' })
-      return false
-    }
-    return true
-  }
-
-  // Ditambahkan: Fungsi untuk memperbarui sessionId di Firestore
-  const updateSessionId = async (userId) => {
-    const userRef = doc(db, 'users', userId)
-    await setDoc(userRef, { sessionId: sessionId.value }, { merge: true })
-  }
-
   const userHandler = () => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
@@ -75,21 +42,11 @@ export const useAuthStore = defineStore('auth', () => {
 
         if (!queryData.empty) {
           const queryUser = queryData.docs[0].data()
-          
-          // Ditambahkan: Memeriksa concurrent login
-          if (await checkConcurrentLogin(user.uid)) {
-            currentUser.value = {
-              email: user.email,
-              id: user.uid,
-              name: queryUser.name,
-              isAdmin: queryUser.isAdmin
-            }
-            
-            // Ditambahkan: Memperbarui sessionId jika belum ada
-            if (!sessionId.value) {
-              sessionId.value = generateSessionId()
-              await updateSessionId(user.uid)
-            }
+          currentUser.value = {
+            email: user.email,
+            id: user.uid,
+            name: queryUser.name,
+            isAdmin: queryUser.isAdmin
           }
         } else {
           console.error('User document not found in Firestore')
@@ -97,7 +54,6 @@ export const useAuthStore = defineStore('auth', () => {
         }
       } else {
         currentUser.value = null
-        sessionId.value = null // Ditambahkan: Mengatur sessionId menjadi null saat logout
       }
     })
   }
@@ -108,16 +64,8 @@ export const useAuthStore = defineStore('auth', () => {
 
   const logOutUser = async () => {
     try {
-      const userId = auth.currentUser.uid // Ditambahkan: Menyimpan userId sebelum logout
       await signOut(auth)
       dialogLogout.value = false
-      
-      // Ditambahkan: Menghapus sessionId di Firestore
-      const userRef = doc(db, 'users', userId)
-      await setDoc(userRef, { sessionId: null }, { merge: true })
-      
-      sessionId.value = null // Ditambahkan: Mengatur sessionId lokal menjadi null
-      
       router.push({ name: 'HomePublic' }).then(() => {
         toast.success(`Kamu berhasil logout!`, {
           timeout: 3000,
@@ -157,32 +105,24 @@ export const useAuthStore = defineStore('auth', () => {
 
       if (!queryData.empty) {
         const queryUser = queryData.docs[0].data()
-        
-        // Ditambahkan: Memeriksa concurrent login
-        if (await checkConcurrentLogin(auth.currentUser.uid)) {
-          currentUser.value = {
-            email: auth.currentUser.email,
-            id: auth.currentUser.uid,
-            name: queryUser.name,
-            isAdmin: queryUser.isAdmin
-          }
-          
-          // Ditambahkan: Menghasilkan dan memperbarui sessionId
-          sessionId.value = generateSessionId()
-          await updateSessionId(auth.currentUser.uid)
+        currentUser.value = {
+          email: auth.currentUser.email,
+          id: auth.currentUser.uid,
+          name: queryUser.name,
+          isAdmin: queryUser.isAdmin
+        }
 
-          // Toaster
-          toast.success(`Hai, ${currentUser.value.name}!`, {
-            timeout: 3000,
-            position: "top-right",
-          })
+        // Toaster
+        toast.success(`Hai, ${currentUser.value.name}!`, {
+          timeout: 3000,
+          position: "top-right",
+        })
 
-          // Route 
-          if (queryUser.isAdmin) {
-            router.push({ name: 'Home' })
-          } else {
-            router.push({ name: 'HomePublic' })
-          }
+        // Route 
+        if (queryUser.isAdmin) {
+          router.push({ name: 'Home' })
+        } else {
+          router.push({ name: 'HomePublic' })
         }
       } else {
         console.error('User document not found in Firestore')
@@ -220,15 +160,6 @@ export const useAuthStore = defineStore('auth', () => {
     }
   }
 
-  // Ditambahkan: watch untuk memperbarui localStorage saat sessionId berubah
-  watch(sessionId, (newSessionId) => {
-    if (newSessionId) {
-      localStorage.setItem('sessionId', newSessionId)
-    } else {
-      localStorage.removeItem('sessionId')
-    }
-  })
-
   return {
     formInput,
     user,
@@ -239,8 +170,6 @@ export const useAuthStore = defineStore('auth', () => {
     isError,
     message,
     dialogLogout,
-    confirmLogout,
-    sessionId, // Ditambahkan: Mengekspos sessionId
-    checkConcurrentLogin // Ditambahkan: Mengekspos fungsi checkConcurrentLogin
+    confirmLogout
   }
 })
