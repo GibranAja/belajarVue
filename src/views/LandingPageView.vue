@@ -5,8 +5,8 @@
     <v-row v-for="data in paginatedNews" :key="data.id">
       <v-col cols="12">
         <v-card class="mx-auto news-card" elevation="2">
-          <v-row>
-            <v-col cols="4">
+          <v-row no-gutters>
+            <v-col cols="12" sm="4" md="4">
               <v-img
                 class="align-end text-white"
                 height="250"
@@ -14,14 +14,17 @@
                 cover
               ></v-img>
             </v-col>
-            <v-col cols="8">
-              <v-card-title class="font-weight-bold">{{ truncateText(data.title, 100) }}</v-card-title>
-              <v-card-subtitle class="pt-2">{{ data.category.name }}</v-card-subtitle>
-              <v-card-text>
+            <v-col cols="12" sm="8" md="8">
+              <v-card-title class="font-weight-bold title-text">{{ truncateText(data.title, 100) }}</v-card-title>
+              <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
+              <v-card-text class="d-none d-sm-flex">
                 <div>{{ truncateText(data.content, 200) }}</div>
               </v-card-text>
               <v-card-actions>
-                <v-btn color="info" variant="elevated" type="button" @click="detailNews(data.id)">Read More</v-btn>
+                <v-btn color="info" variant="elevated" type="button" @click="detailNews(data.id)">
+                  <span class="d-none d-sm-inline">Read More</span>
+                  <span class="d-inline d-sm-none">Read</span>
+                </v-btn>
               </v-card-actions>
             </v-col>
           </v-row>
@@ -29,10 +32,10 @@
       </v-col>
     </v-row>
     <v-pagination
-    v-model="currentPage"
-    :length="totalPages"
-    @update:model-value="changePage"
-    class="custom-pagination mt-4"
+      v-model="currentPage"
+      :length="totalPages"
+      @update:model-value="changePage"
+      class="custom-pagination mt-4"
     > </v-pagination>
   </v-container>
 </template>
@@ -137,5 +140,17 @@ onMounted(() => {
 :deep(.v-pagination__item--active) {
   background-color: lightblue !important;
   color: white !important;
+}
+
+@media (max-width: 600px) {
+  .title-text {
+    font-size: 1.2rem;
+  }
+}
+
+@media (min-width: 601px) and (max-width: 960px) {
+  .title-text {
+    font-size: 1.4rem;
+  }
 }
 </style>
