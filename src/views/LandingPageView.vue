@@ -15,10 +15,13 @@
               ></v-img>
             </v-col>
             <v-col cols="12" sm="8" md="8">
-              <v-card-title class="font-weight-bold title-text">{{ truncateText(data.title, 100) }}</v-card-title>
+              <v-card-title class="font-weight-bold title-text">
+                <span class="d-none d-sm-inline">{{ truncateText(data.title, 100) }}</span>
+                <span class="d-inline d-sm-none ">{{ data.title }}</span>
+              </v-card-title>
               <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
               <v-card-text class="d-none d-sm-flex">
-                <div>{{ truncateText(data.content, 200) }}</div>
+                <div>{{ truncateText(data.content, 50) }}</div>
               </v-card-text>
               <v-card-actions>
                 <v-btn color="info" variant="elevated" type="button" @click="detailNews(data.id)">
@@ -82,7 +85,7 @@ const detailNews = (id) => {
 // State
 const { newsData } = storeToRefs(newsStore)
 
-// Paginatiom
+// Pagination
 const newsPerPage = 5
 const currentPage = ref(1)
 
@@ -142,15 +145,47 @@ onMounted(() => {
   color: white !important;
 }
 
+.title-text {
+  font-size: 1.5rem;
+  line-height: 1.2;
+  word-wrap: break-word;
+  overflow-wrap: break-word;
+  hyphens: auto;
+  max-height: 3.6em; 
+  overflow: hidden;
+  display: -webkit-box;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+}
+
+.content-text {
+  overflow: hidden;
+  display: -webkit-box;
+  display: box;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+}
+
 @media (max-width: 600px) {
   .title-text {
     font-size: 1.2rem;
+    max-height: 4.32em;
+  }
+  .v-card-title {
+    padding: 12px 16px 0;
+  }
+  .v-card-actions {
+    padding: 0 16px 16px;
   }
 }
 
 @media (min-width: 601px) and (max-width: 960px) {
   .title-text {
-    font-size: 1.4rem;
+    font-size: 1.3rem;
+    max-height: 4.68em;
   }
 }
 </style>
