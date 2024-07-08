@@ -20,7 +20,10 @@
         >
         </v-img>
 
-        <v-card-title class="newsTitle text-truncate">{{ data.title }}</v-card-title>
+        <v-card-title class="newsTitle">
+          <span class="d-none d-sm-inline">{{ truncateText(data.title, 50) }}</span>
+          <span class="d-inline d-sm-none full-title">{{ data.title }}</span>
+        </v-card-title>
         <v-card-subtitle class="pt-2"> {{ data.category.name }} </v-card-subtitle>
 
         <v-card-text class="content-text">
@@ -147,5 +150,11 @@ const truncateText = (text, maxLength) => {
 .content-text {
   flex-grow: 1;
   overflow: hidden;
+}
+
+.full-title {
+  white-space: normal !important;
+  word-break: break-word;
+  line-height: 1.3;
 }
 </style>
