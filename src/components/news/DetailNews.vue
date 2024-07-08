@@ -1,5 +1,5 @@
 <template>
-  <v-card-actions>
+  <v-card-actions class="mt-7">
     <v-btn color="secondary" @click="$router.go(-1)" prepend-icon="mdi-arrow-left" size="x-large">
       <p class="mx-3">Back</p>
     </v-btn>
