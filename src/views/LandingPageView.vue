@@ -18,7 +18,7 @@
               <div class="d-flex flex-column h-100">
                 <v-card-title class="font-weight-bold">
                   <span class="d-none d-sm-inline">{{ truncateText(data.title, 50) }}</span>
-                  <span class="d-inline d-sm-none text-subtitle-2 font-weight-bold">{{ truncateText(data.title, 45) }}</span>
+                  <span class="d-inline d-sm-none font-weight-bold full-title">{{ data.title }}</span>
                 </v-card-title>
                 <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
                 <v-card-text class="d-none d-sm-flex">
@@ -195,5 +195,28 @@ onMounted(() => {
     display: flex;
     flex-direction: column;
   }
+}
+
+.full-title {
+  white-space: normal !important;
+  word-break: break-word !important;
+  font-size: 16px !important;
+  line-height: 1.3 !important;
+}
+
+@media (max-width: 600px) {
+  .v-card-title .full-title {
+    font-size: 16px !important;
+    line-height: 1.3 !important;
+  }
+}
+
+.v-card-title .full-title,
+.v-card .v-card-title .full-title {
+  line-height: 1.3 !important;
+}
+
+.v-card-title {
+  line-height: 1.3 !important;
 }
 </style>

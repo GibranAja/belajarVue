@@ -14,14 +14,18 @@
     >
     </v-img>
 
-    <v-card-title class="font-weight-bold text-h5">{{ data.title }}</v-card-title>
+    <v-card-title class="font-weight-bold text-h5 full-title">{{ data.title }}</v-card-title>
     <v-card-subtitle class="pt-4 font-weight-normal text-h6">
       {{ data.category.name }}
     </v-card-subtitle>
 
+    <v-card-text class="d-md-none">
+      <div class="text-primary">Written By: {{ data.writtenBy.name }}</div>
+    </v-card-text>
+
     <v-card-text>
-      <div class="text-subtitle-1" v-html="formattedContent"></div>
-      <div class="text-primary mt-5">Written By: {{ data.writtenBy.name }}</div>
+      <div class="text-subtitle-1 full-content" v-html="formattedContent"></div>
+      <div class="text-primary mt-5 d-none d-md-block">Written By: {{ data.writtenBy.name }}</div>
       <div class="mt-1 text-medium-emphasis">
         Date Created: {{ new Date(data.createdAt).toDateString() }}
       </div>
@@ -131,3 +135,28 @@ const formattedContent = computed(() => {
   return props.data.content.replace(/\n/g, '<br>')
 })
 </script>
+
+<style scoped>
+.full-title,
+.full-content {
+  white-space: normal;
+  word-break: break-word;
+  overflow-wrap: break-word;
+}
+
+.full-content {
+  line-height: 1.6;
+}
+
+@media (max-width: 600px) {
+  .full-title {
+    font-size: 18px !important;
+    line-height: 1.4 !important;
+  }
+
+  .full-content {
+    font-size: 14px !important;
+    line-height: 1.5 !important;
+  }
+}
+</style>
