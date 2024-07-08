@@ -15,20 +15,23 @@
               ></v-img>
             </v-col>
             <v-col cols="12" sm="8" md="8">
-              <v-card-title class="font-weight-bold title-text">
-                <span class="d-none d-sm-inline">{{ truncateText(data.title, 100) }}</span>
-                <span class="d-inline d-sm-none ">{{ data.title }}</span>
-              </v-card-title>
-              <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
-              <v-card-text class="d-none d-sm-flex">
-                <div>{{ truncateText(data.content, 50) }}</div>
-              </v-card-text>
-              <v-card-actions>
-                <v-btn color="info" variant="elevated" type="button" @click="detailNews(data.id)">
-                  <span class="d-none d-sm-inline">Read More</span>
-                  <span class="d-inline d-sm-none">Read</span>
-                </v-btn>
-              </v-card-actions>
+              <div class="d-flex flex-column h-100">
+                <v-card-title class="font-weight-bold title-text">
+                  <span class="d-none d-sm-inline">{{ truncateText(data.title, 50) }}</span>
+                  <span class="d-inline d-sm-none text-subtitle-2 font-weight-bold">{{ truncateText(data.title, 25) }}</span>
+                </v-card-title>
+                <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
+                <v-card-text class="d-none d-sm-flex">
+                  <div>{{ truncateText(data.content, 250) }}</div>
+                </v-card-text>
+                <div class="flex-grow-1"></div>
+                <v-card-actions class="button-container">
+                  <v-btn color="info" variant="elevated" type="button" @click="detailNews(data.id)">
+                    <span class="d-none d-sm-inline">Read More</span>
+                    <span class="d-inline d-sm-none">Read</span>
+                  </v-btn>
+                </v-card-actions>
+              </div>
             </v-col>
           </v-row>
         </v-card>
@@ -169,6 +172,10 @@ onMounted(() => {
   box-orient: vertical;
 }
 
+.button-container {
+  padding: 16px 16px 16px;
+}
+
 @media (max-width: 600px) {
   .title-text {
     font-size: 1.2rem;
@@ -178,7 +185,16 @@ onMounted(() => {
     padding: 12px 16px 0;
   }
   .v-card-actions {
-    padding: 0 16px 16px;
+    padding: 16px 16px 16px;
+  }
+  .v-col {
+    display: flex;
+    flex-direction: column;
+  }
+  .v-col > div {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
   }
 }
 
