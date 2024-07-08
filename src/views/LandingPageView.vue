@@ -1,5 +1,5 @@
 <template>
-  <h1 class="my-3">News</h1>
+  <h1 class="mt-16 mb-3">News</h1>
   <v-divider class="border-opacity-100" color="info"></v-divider>
   <v-container class="my-3">
     <v-row v-for="data in paginatedNews" :key="data.id">
