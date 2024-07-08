@@ -34,7 +34,6 @@ const requiredAuth = (to, from, next) => {
     alert("Login/Register diperlukan say")
     next({ name: "Login" })
   } else {
-    // Check if the user is admin for admin routes
     if (to.meta.requiresAdmin && !authStore.currentUser?.isAdmin) {
       alert("You don't have permission to access this page")
       next({ name: "HomePublic" })
@@ -47,7 +46,6 @@ const requiredAuth = (to, from, next) => {
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
-    // dashboard (admin routes)
     {
       path: '/dashboard',
       component: DashboardLayout,
@@ -96,7 +94,7 @@ const router = createRouter({
       ]
     },
     
-    // Public routes
+    // Public
     {
       path: '/',
       component: PublicLayout,
@@ -136,7 +134,7 @@ const router = createRouter({
   ]
 })
 
-// Add a global navigation guard
+// Navigation Guard
 router.beforeEach((to, from, next) => {
   const authStore = useAuthStore()
   

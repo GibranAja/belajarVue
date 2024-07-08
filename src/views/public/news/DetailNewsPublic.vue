@@ -47,10 +47,8 @@ const checkScroll = () => {
   const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
 
   if (currentScrollPosition > lastScrollPosition && currentScrollPosition > 100) {
-    // Scrolling down and past 100px
     showBackToTop.value = true
   } else if (currentScrollPosition < lastScrollPosition || currentScrollPosition <= 100) {
-    // Scrolling up or at the top
     showBackToTop.value = false
   }
 
