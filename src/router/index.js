@@ -12,6 +12,7 @@ import CreateNews from '../views/news/CreateNewsView.vue'
 import DetailNews from '../views/news/DetailNewsView.vue'
 import UpdateNews from '../views/news/UpdateNewsView.vue'
 import DetailNewsPublic from '../views/public/news/DetailNewsPublic.vue'
+// import CategoryNewsView from '../views/public/CategoryView.vue'
 
 // Public
 import PublicLayout from '../layouts/PublicLayout.vue'
@@ -108,6 +109,11 @@ const router = createRouter({
           path: '/Category',
           name: 'CategoryPublic',
           component: CategoryPublicView
+        },
+        {
+          path: '/Category/:categoryName',
+          name: 'CategoryNews',
+          component: () => import('@/views/public/CategoryNewsView.vue')
         },
         {
           path: '/news/:id',
