@@ -67,10 +67,11 @@ export const useNewsStore = defineStore('News', () => {
 
   const allNews = async () => {
     const fetchedNews = await getDocs(newsCollection)
-    newsData.value = fetchedNews.docs.map((docs) => {
-      // console.log(doc.id, doc.data())
-      return { ...docs.data(), id: docs.id }
-    })
+    newsData.value = fetchedNews.docs
+      .map((docs) => {
+        return { ...docs.data(), id: docs.id }
+      })
+      .sort((a, b) => b.createdAt - a.createdAt)
   }
 
   const detailHandling = async (idParams) => {
