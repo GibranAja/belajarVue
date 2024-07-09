@@ -22,7 +22,7 @@
                 </v-card-title>
                 <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
                 <v-card-text class="d-none d-sm-flex">
-                  <div>{{ truncateText(data.content, 250) }}</div>
+                  <div>{{ truncateText(data.content, 400) }}</div>
                 </v-card-text>
                 <div class="flex-grow-1"></div>
                 <v-card-actions class="button-container">
