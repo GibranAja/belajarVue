@@ -64,7 +64,7 @@
   <v-table hover>
     <thead>
       <tr>
-        <th class="text-left">Number</th>
+        <th class="text-left">#</th>
         <th class="text-left">Name</th>
         <th class="text-center">Action</th>
       </tr>
