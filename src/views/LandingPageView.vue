@@ -20,7 +20,9 @@
                   <span class="d-none d-sm-inline">{{ truncateText(data.title, 50) }}</span>
                   <span class="d-inline d-sm-none full-title">{{ data.title }}</span>
                 </v-card-title>
-                <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
+                <v-card-subtitle class="pt-2 d-none d-sm-flex">
+                  {{ data.category.name }} | {{ formatDate(data.createdAt) }}
+                </v-card-subtitle>
                 <v-card-text class="d-none d-sm-flex">
                   <div>{{ truncateText(data.content, 400) }}</div>
                 </v-card-text>
@@ -42,16 +44,17 @@
       :length="totalPages"
       @update:model-value="changePage"
       class="custom-pagination mt-4"
-    > </v-pagination>
+    >
+    </v-pagination>
   </v-container>
 </template>
 
 <script setup>
 import { useNewsStore } from '../stores/NewsStore.js'
 import { useAuthStore } from '../stores/AuthStore.js'
-import { onMounted, computed, ref } from 'vue'
+import { onMounted, computed, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useRouter } from 'vue-router';
+import { useRouter } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 // Store
@@ -65,11 +68,11 @@ const { allNews } = newsStore
 const detailNews = (id) => {
   if (authStore.currentUser) {
     router.push({ name: 'DetailNewsPublic', params: { id: id } }).then(() => {
-      window.scrollTo(0, 0);
-    });
+      window.scrollTo(0, 0)
+    })
   } else {
-    toast.info("Kamu belum Login/Register", {
-      position: "top-right",
+    toast.info('Kamu belum Login/Register', {
+      position: 'top-right',
       timeout: 3000,
       closeOnClick: true,
       pauseOnFocusLoss: false,
@@ -78,10 +81,10 @@ const detailNews = (id) => {
       draggablePercent: 0.6,
       showCloseButtonOnHover: false,
       hideProgressBar: false,
-      closeButton: "button",
+      closeButton: 'button',
       icon: true,
       rtl: false
-    });
+    })
   }
 }
 
@@ -117,6 +120,26 @@ const truncateText = (text, maxLength) => {
   if (!text || typeof text !== 'string') return ''
   if (text.length <= maxLength) return text
   return text.slice(0, maxLength) + '...'
+}
+
+watch(
+  () => newsData.value,
+  (newValue) => {
+    if (newValue) {
+      newsData.value = newValue.sort((a, b) => b.createdAt - a.createdAt)
+    }
+  },
+  { deep: true }
+)
+
+const formatDate = (timestamp) => {
+  if (!timestamp) return ''
+  const date = new Date(timestamp)
+  return date.toLocaleDateString('en-US', {
+    year: 'numeric',
+    month: 'long',
+    day: 'numeric'
+  })
 }
 
 onMounted(() => {
@@ -166,7 +189,7 @@ onMounted(() => {
   .news-card {
     width: 100%;
   }
-  
+
   .news-image {
     height: auto;
     aspect-ratio: 16 / 9;
