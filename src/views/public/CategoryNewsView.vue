@@ -2,47 +2,61 @@
   <h1 class="mt-16 mb-3">News for Category: {{ $route.params.categoryName }}</h1>
   <v-divider class="border-opacity-100" color="info"></v-divider>
   <v-container class="my-3">
-    <v-row v-for="data in paginatedNews" :key="data.id">
+    <template v-if="categoryNews.length > 0">
+      <v-row v-for="data in paginatedNews" :key="data.id">
+        <v-col cols="12">
+          <v-card class="mx-auto news-card" elevation="2">
+            <v-row no-gutters>
+              <v-col cols="12" sm="4" md="4">
+                <v-img
+                  class="align-end text-white news-image"
+                  height="250"
+                  :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
+                  cover
+                ></v-img>
+              </v-col>
+              <v-col cols="12" sm="8" md="8">
+                <div class="d-flex flex-column h-100">
+                  <v-card-title class="font-weight-medium">
+                    <span class="d-none d-sm-inline">{{ truncateText(data.title, 50) }}</span>
+                    <span class="d-inline d-sm-none full-title">{{ data.title }}</span>
+                  </v-card-title>
+                  <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
+                  <v-card-text class="d-none d-sm-flex">
+                    <div>{{ truncateText(data.content, 400) }}</div>
+                  </v-card-text>
+                  <div class="flex-grow-1"></div>
+                  <v-card-actions class="button-container">
+                    <v-btn color="info" variant="elevated" type="button" @click="detailNews(data.id)">
+                      <span class="d-none d-sm-inline">Read More</span>
+                      <span class="d-inline d-sm-none">Read</span>
+                    </v-btn>
+                  </v-card-actions>
+                </div>
+              </v-col>
+            </v-row>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-pagination
+        v-model="currentPage"
+        :length="totalPages"
+        @update:model-value="changePage"
+        class="custom-pagination mt-4"
+      ></v-pagination>
+    </template>
+    <v-row v-else>
       <v-col cols="12">
-        <v-card class="mx-auto news-card" elevation="2">
-          <v-row no-gutters>
-            <v-col cols="12" sm="4" md="4">
-              <v-img
-                class="align-end text-white news-image"
-                height="250"
-                :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
-                cover
-              ></v-img>
-            </v-col>
-            <v-col cols="12" sm="8" md="8">
-              <div class="d-flex flex-column h-100">
-                <v-card-title class="font-weight-medium">
-                  <span class="d-none d-sm-inline">{{ truncateText(data.title, 50) }}</span>
-                  <span class="d-inline d-sm-none full-title">{{ data.title }}</span>
-                </v-card-title>
-                <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
-                <v-card-text class="d-none d-sm-flex">
-                  <div>{{ truncateText(data.content, 400) }}</div>
-                </v-card-text>
-                <div class="flex-grow-1"></div>
-                <v-card-actions class="button-container">
-                  <v-btn color="info" variant="elevated" type="button" @click="detailNews(data.id)">
-                    <span class="d-none d-sm-inline">Read More</span>
-                    <span class="d-inline d-sm-none">Read</span>
-                  </v-btn>
-                </v-card-actions>
-              </div>
-            </v-col>
-          </v-row>
-        </v-card>
+        <v-alert
+          type="info"
+          prominent
+          border="start"
+          class="mt-4"
+        >
+          There is no news regarding this category yet.
+        </v-alert>
       </v-col>
     </v-row>
-    <v-pagination
-      v-model="currentPage"
-      :length="totalPages"
-      @update:model-value="changePage"
-      class="custom-pagination mt-4"
-    > </v-pagination>
   </v-container>
 </template>
 
