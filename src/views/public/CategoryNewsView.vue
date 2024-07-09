@@ -51,9 +51,9 @@
           type="info"
           prominent
           border="start"
-          class="mt-4"
+          class="mt-4 text-h5"
         >
-          There is no news regarding this category yet.
+          Coming Soon
         </v-alert>
       </v-col>
     </v-row>
