@@ -11,7 +11,9 @@
                 <v-img
                   class="align-end text-white news-image"
                   height="250"
-                  :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
+                  :src="
+                    data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`
+                  "
                   cover
                 ></v-img>
               </v-col>
@@ -21,13 +23,20 @@
                     <span class="d-none d-sm-inline">{{ truncateText(data.title, 50) }}</span>
                     <span class="d-inline d-sm-none full-title">{{ data.title }}</span>
                   </v-card-title>
-                  <v-card-subtitle class="pt-2 d-none d-sm-flex">{{ data.category.name }}</v-card-subtitle>
+                  <v-card-subtitle class="pt-2 d-none d-sm-flex">{{
+                    data.category.name
+                  }}</v-card-subtitle>
                   <v-card-text class="d-none d-sm-flex">
                     <div>{{ truncateText(data.content, 400) }}</div>
                   </v-card-text>
                   <div class="flex-grow-1"></div>
                   <v-card-actions class="button-container">
-                    <v-btn color="info" variant="elevated" type="button" @click="detailNews(data.id)">
+                    <v-btn
+                      color="info"
+                      variant="elevated"
+                      type="button"
+                      @click="detailNews(data.id)"
+                    >
                       <span class="d-none d-sm-inline">Read More</span>
                       <span class="d-inline d-sm-none">Read</span>
                     </v-btn>
@@ -47,12 +56,7 @@
     </template>
     <v-row v-else>
       <v-col cols="12">
-        <v-alert
-          type="info"
-          prominent
-          border="start"
-          class="mt-4 text-h5"
-        >
+        <v-alert type="info" prominent border="start" class="mt-4 text-h5 floating-alert">
           Coming Soon
         </v-alert>
       </v-col>
@@ -65,7 +69,7 @@ import { useNewsStore } from '../../stores/NewsStore.js'
 import { useAuthStore } from '../../stores/AuthStore.js'
 import { onMounted, computed, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
-import { useRouter, useRoute } from 'vue-router';
+import { useRouter, useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
 
 const newsStore = useNewsStore()
@@ -82,11 +86,11 @@ const categoryNews = ref([])
 const detailNews = (id) => {
   if (authStore.currentUser) {
     router.push({ name: 'DetailNewsPublic', params: { id: id } }).then(() => {
-      window.scrollTo(0, 0);
-    });
+      window.scrollTo(0, 0)
+    })
   } else {
-    toast.info("Kamu belum Login/Register", {
-      position: "top-right",
+    toast.info('Kamu belum Login/Register', {
+      position: 'top-right',
       timeout: 3000,
       closeOnClick: true,
       pauseOnFocusLoss: false,
@@ -95,10 +99,10 @@ const detailNews = (id) => {
       draggablePercent: 0.6,
       showCloseButtonOnHover: false,
       hideProgressBar: false,
-      closeButton: "button",
+      closeButton: 'button',
       icon: true,
       rtl: false
-    });
+    })
   }
 }
 
@@ -140,7 +144,9 @@ onMounted(async () => {
 watch(() => route.params.categoryName, filterNewsByCategory)
 
 function filterNewsByCategory() {
-  categoryNews.value = newsData.value.filter(news => news.category.name === route.params.categoryName)
+  categoryNews.value = newsData.value.filter(
+    (news) => news.category.name === route.params.categoryName
+  )
 }
 </script>
 
@@ -186,7 +192,7 @@ function filterNewsByCategory() {
   .news-card {
     width: 100%;
   }
-  
+
   .news-image {
     height: auto;
     aspect-ratio: 16 / 9;
@@ -226,5 +232,21 @@ function filterNewsByCategory() {
 
 .v-card-title {
   line-height: 1.3 !important;
+}
+
+@keyframes float {
+  0% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-30px);
+  }
+  100% {
+    transform: translateY(0px);
+  }
+}
+
+.floating-alert {
+  animation: float 3s ease-in-out infinite;
 }
 </style>
