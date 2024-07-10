@@ -5,28 +5,28 @@
     </v-btn>
   </v-card-actions>
   <v-card class="mx-auto">
+    <v-card-title class="font-weight-bold text-h5 full-title">{{ data.title }}</v-card-title>
+
+    <v-card-subtitle
+      class="pt-4 font-weight-normal text-subtitle-1 d-flex flex-column flex-md-row align-md-center"
+    >
+      <span>{{ data.category.name }}</span>
+      <span class="d-none d-md-inline mx-2">|</span>
+      <span>Written by: {{ data.writtenBy.name }}</span>
+    </v-card-subtitle>
+
     <v-img
-      class="align-end text-white"
+      class="align-end text-white mt-4"
       style="width: 100%; height: auto"
       :src="data.image ? data.image : `https://cdn.vuetifyjs.com/images/cards/docks.jpg`"
-      :aspect-ratio="4 / 3"
-      contain
+      :aspect-ratio="16 / 9"
+      cover
     >
     </v-img>
 
-    <v-card-title class="font-weight-bold text-h5 full-title">{{ data.title }}</v-card-title>
-    <v-card-subtitle class="pt-4 font-weight-normal text-h6">
-      {{ data.category.name }}
-    </v-card-subtitle>
-
-    <v-card-text class="d-md-none">
-      <div class="text-primary">Written By: {{ data.writtenBy.name }}</div>
-    </v-card-text>
-
     <v-card-text>
       <div class="text-subtitle-1 full-content" v-html="formattedContent"></div>
-      <div class="text-primary mt-5 d-none d-md-block">Written By: {{ data.writtenBy.name }}</div>
-      <div class="mt-1 text-medium-emphasis">
+      <div class="mt-5 text-medium-emphasis">
         Date Created: {{ new Date(data.createdAt).toDateString() }}
       </div>
     </v-card-text>
@@ -148,15 +148,27 @@ const formattedContent = computed(() => {
   line-height: 1.6;
 }
 
-@media (max-width: 600px) {
+@media (max-width: 960px) {
   .full-title {
-    font-size: 18px !important;
+    font-size: 20px !important;
     line-height: 1.4 !important;
   }
 
   .full-content {
-    font-size: 14px !important;
+    font-size: 16px !important;
     line-height: 1.5 !important;
+  }
+}
+
+@media (max-width: 600px) {
+  .full-title {
+    font-size: 18px !important;
+    line-height: 1.3 !important;
+  }
+
+  .full-content {
+    font-size: 14px !important;
+    line-height: 1.4 !important;
   }
 }
 </style>
