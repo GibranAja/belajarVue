@@ -16,14 +16,13 @@
   </template>
   
   <script setup>
-  import { ref, provide } from 'vue'
+  import { ref } from 'vue'
   import SideBar from '../components/SideBar.vue'
   import NavBar from '../components/NavBar.vue'
   import { RouterView } from 'vue-router';
   
   const drawer = ref(true)
   
-  provide('username', 'Rawr')
   
   const drawerOpenClose = () => {
     drawer.value = !drawer.value
