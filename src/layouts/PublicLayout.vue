@@ -16,4 +16,5 @@
 <script setup>
 import FooterComponent from '../components/public/FooterComponent.vue';
 import HeaderComponent from '../components/public/HeaderComponent.vue';
+import { RouterView } from 'vue-router';
 </script>
