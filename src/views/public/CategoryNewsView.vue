@@ -1,5 +1,5 @@
 <template>
-  <v-btn class="mt-11" color="secondary" @click = $router.go(-1)>Back</v-btn>
+  <BackButton />
   <h1 class="mt-11 mb-3">News for Category: {{ $route.params.categoryName }}</h1>
   <v-divider class="border-opacity-100" color="info"></v-divider>
   <v-container class="my-3">
@@ -72,6 +72,7 @@ import { onMounted, computed, ref, watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { useRouter, useRoute } from 'vue-router'
 import { useToast } from 'vue-toastification'
+import BackButton from '../../components/news/BackButton.vue'
 
 const newsStore = useNewsStore()
 const authStore = useAuthStore()

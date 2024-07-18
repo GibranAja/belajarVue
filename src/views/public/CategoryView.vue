@@ -1,5 +1,6 @@
 <template>
   <v-container>
+    <BackButton />
     <h1 class="my-16">News Categories</h1>
     <v-row>
       <v-col v-for="category in categories" :key="category.id" cols="12" sm="6" md="4" class="mb-4">
@@ -46,6 +47,7 @@
 import { useCategoryStore } from '@/stores/CategoryStore'
 import { ref, onMounted } from 'vue'
 import { useRouter } from 'vue-router'
+import BackButton from '../../components/news/BackButton.vue'
 
 const categoryStore = useCategoryStore()
 const router = useRouter()
