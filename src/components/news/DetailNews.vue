@@ -1,8 +1,6 @@
 <template>
   <v-card-actions class="mt-7">
-    <v-btn color="secondary" @click="$router.go(-1)" prepend-icon="mdi-arrow-left" size="x-large">
-      <p class="mx-3">Back</p>
-    </v-btn>
+    <BackButton />
   </v-card-actions>
   <v-card class="mx-auto">
     <v-card-title class="font-weight-bold text-h5 full-title">{{ data.title }}</v-card-title>
@@ -64,6 +62,7 @@ import { ref as refFile, getDownloadURL, uploadBytesResumable } from 'firebase/s
 import { doc, updateDoc } from 'firebase/firestore'
 import { useRoute, useRouter } from 'vue-router'
 import { useAuthStore } from '@/stores/AuthStore'
+import BackButton from './BackButton.vue'
 
 const props = defineProps({
   data: {
