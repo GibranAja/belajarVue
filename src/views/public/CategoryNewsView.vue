@@ -1,5 +1,6 @@
 <template>
-  <h1 class="mt-16 mb-3">News for Category: {{ $route.params.categoryName }}</h1>
+  <v-btn class="mt-11" color="secondary" @click = $router.go(-1)>Back</v-btn>
+  <h1 class="mt-11 mb-3">News for Category: {{ $route.params.categoryName }}</h1>
   <v-divider class="border-opacity-100" color="info"></v-divider>
   <v-container class="my-3">
     <template v-if="categoryNews.length > 0">
