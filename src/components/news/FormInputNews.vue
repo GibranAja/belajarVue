@@ -106,20 +106,16 @@ const categoryRules = [
   }
 ]
 
-// Computed property to check if form is filled
 const isFormFilled = computed(() => {
   return news.value.title || news.value.content || news.value.category
 })
 
-// Handle back/cancel button click
 const handleBack = () => {
   if (isFormFilled.value) {
-    // If form is filled, show confirmation dialog
     if (confirm('Are you sure you want to cancel? Your changes will be lost.')) {
       router.go(-1)
     }
   } else {
-    // If form is empty, go back directly
     router.go(-1)
   }
 }
