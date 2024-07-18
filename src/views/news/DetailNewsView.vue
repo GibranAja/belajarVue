@@ -1,11 +1,11 @@
 <template>
   <div v-if="detailNews">
-    <DetailNews :data="detailNews" :isUpdate="true"/>
+    <DetailNews :data="detailNews" :isUpdate="true" />
   </div>
 </template>
 
 <script setup>
-import { onMounted } from 'vue';
+import { onMounted } from 'vue'
 import { useRoute } from 'vue-router'
 import { useNewsStore } from '../../stores/NewsStore.js'
 import { storeToRefs } from 'pinia'
@@ -24,7 +24,6 @@ const route = useRoute()
 const { detailHandling } = newsStore
 
 onMounted(() => {
-    detailHandling(route.params.id)
+  detailHandling(route.params.id)
 })
-
 </script>
