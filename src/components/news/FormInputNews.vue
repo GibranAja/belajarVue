@@ -49,14 +49,15 @@
         <v-card-actions>
           <v-btn
             class="mb-8"
-            type="submit"
+            type="button"
             color="error"
             size="large"
             variant="elevate"
             block
-            @click="$router.go(-1)"
-            >Back</v-btn
+            @click="handleBack"
           >
+            {{ isFormFilled ? 'Cancel' : 'Back' }}
+          </v-btn>
         </v-card-actions>
       </v-form>
     </v-card>
@@ -66,12 +67,14 @@
 <script setup>
 import { useCategoryStore } from '../../stores/CategoryStore.js'
 import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
+import { onMounted, computed } from 'vue'
 import { useNewsStore } from '@/stores/NewsStore.js'
+import { useRouter } from 'vue-router'
 
 // Store
 const categoryStore = useCategoryStore()
 const newsStore = useNewsStore()
+const router = useRouter()
 
 // State
 const { categories } = storeToRefs(categoryStore)
@@ -102,6 +105,24 @@ const categoryRules = [
     return 'Category must selected'
   }
 ]
+
+// Computed property to check if form is filled
+const isFormFilled = computed(() => {
+  return news.value.title || news.value.content || news.value.category
+})
+
+// Handle back/cancel button click
+const handleBack = () => {
+  if (isFormFilled.value) {
+    // If form is filled, show confirmation dialog
+    if (confirm('Are you sure you want to cancel? Your changes will be lost.')) {
+      router.go(-1)
+    }
+  } else {
+    // If form is empty, go back directly
+    router.go(-1)
+  }
+}
 
 onMounted(() => {
   readCategory()
