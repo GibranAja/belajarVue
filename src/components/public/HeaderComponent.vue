@@ -3,7 +3,7 @@
     app
     :class="[
       appBarClass,
-      { 'glassmorphism': isScrolled && !isHidden },
+      { glassmorphism: isScrolled && !isHidden },
       { 'bg-blue-lighten-4': !isScrolled }
     ]"
     :style="{ transform: isHidden ? 'translateY(-100%)' : 'translateY(0)' }"
@@ -112,18 +112,18 @@ const currentUserMenu = computed(() => {
 const appBarClass = computed(() => {
   return {
     'transition-transform': true,
-    'duration-300': true,
+    'duration-300': true
   }
 })
 
 const handleScroll = () => {
   const currentScrollPosition = window.pageYOffset || document.documentElement.scrollTop
   isScrolled.value = currentScrollPosition > 0
-  
+
   if (currentScrollPosition < 0) {
     return
   }
-  
+
   if (Math.abs(currentScrollPosition - lastScrollPosition.value) < 60) {
     return
   }
