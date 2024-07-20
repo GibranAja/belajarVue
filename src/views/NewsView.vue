@@ -2,11 +2,7 @@
   <h1>Ini Halaman News</h1>
   <!-- Add button -->
   <div class="d-flex justify-end my-6">
-    <SortFilter 
-      v-model:sortOrder="sortOrder"
-      :sortKey="'title'"
-      @sort="handleSort"
-    />
+    <SortFilter v-model:sortOrder="sortOrder" :sortKey="'title'" @sort="handleSort" />
     <v-btn color="primary" size="large" icon="mdi-plus" @click="addNews()"></v-btn>
   </div>
   <v-row justify="center">
@@ -60,7 +56,7 @@
 <script setup>
 import { useNewsStore } from '@/stores/NewsStore'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref,  } from 'vue'
+import { onMounted, ref } from 'vue'
 import { useRouter } from 'vue-router'
 import DialogComponents from '@/components/dashboard/DialogComponents.vue'
 import SortFilter from '@/components/dashboard/FilterComponents.vue'
