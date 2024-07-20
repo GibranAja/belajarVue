@@ -2,6 +2,14 @@
   <v-card-actions class="mt-7">
     <BackButton />
   </v-card-actions>
+  <v-breadcrumbs :items="breadcrumbItems" divider=">" class="px-0">
+    <template v-slot:item="{ item }">
+      <v-breadcrumbs-item :to="item.href" :disabled="item.disabled">
+        {{ item.title }}
+      </v-breadcrumbs-item>
+    </template>
+  </v-breadcrumbs>
+
   <v-card class="mx-auto">
     <v-card-title class="font-weight-bold text-h5 full-title">{{ data.title }}</v-card-title>
 
@@ -133,6 +141,24 @@ const handlingUploadFile = async (data) => {
 const formattedContent = computed(() => {
   return props.data.content.replace(/\n/g, '<br>')
 })
+
+const breadcrumbItems = computed(() => [
+  {
+    title: 'Home',
+    disabled: false,
+    href: '/'
+  },
+  {
+    title: props.data.category.name,
+    disabled: false,
+    href: `/Category/${props.data.category.name}`
+  },
+  {
+    title: props.data.title,
+    disabled: true,
+    href: route.path
+  }
+])
 </script>
 
 <style scoped>
