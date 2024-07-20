@@ -1,7 +1,6 @@
 <template>
   <div>
     <h1>Ini Halaman Profile</h1>
-    <!-- <h4>Jumlah User = {{ usersData.totalUsers }}</h4> -->
     <div>
       <p>Nama : {{ currentUser.name }}</p>
       <p>Email : {{ currentUser.email }}</p>
@@ -15,7 +14,6 @@
 
 <script setup>
 import IconLink from '../components/IconLink.vue'
-// import { userStorage } from '../stores/UserStroage.js'
 import { useAuthStore } from '@/stores/AuthStore'
 import { storeToRefs } from 'pinia'
 
@@ -23,6 +21,4 @@ import { storeToRefs } from 'pinia'
 const auth = useAuthStore()
 const { currentUser } = storeToRefs(auth)
 
-// Storgage
-// const usersData = userStorage()
 </script>
